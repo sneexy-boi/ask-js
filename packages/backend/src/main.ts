@@ -7,6 +7,8 @@ import fastifyAutoload from '@fastify/autoload';
 import * as path from 'node:path';
 import db from './utils/db.js';
 
+const adminIds = Array.from(process.env.ADMIN_IDS ?? []);
+
 const fastify = Fastify({
 	logger: true
 });

@@ -1,5 +1,6 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
+import AuthService from '../../../../services/AuthService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -7,8 +8,9 @@ export default plugin(async (fastify) => {
 		body: {
 			type: 'object',
 			properties: {
-				username: { type: 'string' },
-				password: { type: 'string' }
+				username: { type: 'string', minLength: 1, maxLength: 100 },
+				password: { type: 'string', minLength: 1, maxLength: 72 },
+				invite: { type: 'string' }
 			}
 		}
 	} as const;
@@ -21,7 +23,17 @@ export default plugin(async (fastify) => {
 			schema: schema
 		},
 		async (req, reply) => {
-			return reply.status(501).send();
+			return await AuthService.registerUser(
+				req.body.username,
+				req.body.password,
+				req.body.invite
+			).then((e) => {
+				return reply.status(e.status).send({
+					message: e.message,
+					user: e.user,
+					token: e.token
+				});
+			});
 		}
 	);
 });

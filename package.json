@@ -9,9 +9,12 @@
 		"packages/backend"
 	],
 	"scripts": {
-		"dev": "echo \"Error: no test specified\" && exit 1",
-		"build": "echo \"Error: no test specified\" && exit 1",
-		"start": "echo \"Error: no test specified\" && exit 1",
+		"dev": "pnpm --filter backend dev",
+		"build": "pnpm --filter backend build",
+		"start": "pnpm --filter backend start",
+		"migration:apply": "pnpm --filter backend migrate",
+		"migration:revert": "pnpm --filter backend revert",
+		"migration:generate": "pnpm --filter backend generateMigration",
 		"format": "prettier --config .prettierrc --ignore-path .prettierignore '**' --write"
 	},
 	"devDependencies": {

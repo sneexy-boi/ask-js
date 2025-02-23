@@ -9,8 +9,9 @@
 		"start-dev": "node --watch --watch-preserve-output built/main.js",
 		"build": "swc src -d built --strip-leading-paths",
 		"build-dev": "swc src -d built --strip-leading-paths --watch",
-		"migrate": "pnpm exec typeorm migration:run -d ./built/utils/database.js",
-		"revert": "pnpm exec typeorm migration:revert -d ./built/utils/database.js"
+		"migrate": "pnpm exec typeorm migration:run -d ./built/utils/db.js",
+		"generateMigration": "pnpm build && pnpm exec typeorm migration:generate ./src/migrations/migration -d ./built/utils/db.js",
+		"revert": "pnpm exec typeorm migration:revert -d ./built/utils/db.js"
 	},
 	"dependencies": {
 		"@fastify/auth": "^5.0.2",
