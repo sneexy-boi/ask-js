@@ -44,9 +44,12 @@ fastify
 		dir: path.join(process.cwd(), 'built', 'routes')
 	});
 
-fastify.listen({ port: Number(process.env.PORT) }, function (err, address) {
-	if (err) {
-		fastify.log.error(err);
-		process.exit(1);
+fastify.listen(
+	{ port: Number(process.env.PORT ?? 3579) },
+	function (err, address) {
+		if (err) {
+			fastify.log.error(err);
+			process.exit(1);
+		}
 	}
-});
+);

@@ -3,20 +3,11 @@ import { FromSchema } from 'json-schema-to-ts';
 
 export default plugin(async (fastify) => {
 	const schema = {
-		tags: ['Auth'],
-		body: {
-			type: 'object',
-			properties: {
-				username: { type: 'string' },
-				password: { type: 'string' }
-			}
-		}
+		tags: ['Timeline']
 	} as const;
 
-	fastify.post<{
-		Body: FromSchema<typeof schema.body>;
-	}>(
-		'/api/v1/auth/register',
+	fastify.get<{}>(
+		'/api/v1/timeline',
 		{
 			schema: schema
 		},
