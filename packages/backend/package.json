@@ -1,0 +1,40 @@
+{
+	"name": "backend",
+	"version": "0.0.0",
+	"type": "module",
+	"private": "true",
+	"scripts": {
+		"start": "node --no-warnings built/main.js",
+		"dev": "npm-run-all --parallel build-dev start-dev",
+		"start-dev": "node --watch --watch-preserve-output built/main.js",
+		"build": "swc src -d built --strip-leading-paths",
+		"build-dev": "swc src -d built --strip-leading-paths --watch",
+		"migrate": "pnpm exec typeorm migration:run -d ./built/utils/database.js",
+		"revert": "pnpm exec typeorm migration:revert -d ./built/utils/database.js"
+	},
+	"dependencies": {
+		"@fastify/auth": "^5.0.2",
+		"@fastify/autoload": "^6.1.0",
+		"@fastify/cookie": "^11.0.2",
+		"@fastify/cors": "^10.0.2",
+		"@fastify/rate-limit": "^10.2.2",
+		"@fastify/swagger": "^9.4.2",
+		"@scalar/fastify-api-reference": "^1.25.121",
+		"bcryptjs": "^3.0.2",
+		"dompurify": "^3.2.4",
+		"fastify": "^5.2.1",
+		"jsdom": "^26.0.0",
+		"mfm-js": "^0.24.0",
+		"npm-run-all": "^4.1.5",
+		"typeorm": "^0.3.20"
+	},
+	"devDependencies": {
+		"@swc/cli": "^0.6.0",
+		"@swc/core": "^1.10.18",
+		"@types/bcryptjs": "^2.4.6",
+		"@types/jsdom": "^21.1.7",
+		"chokidar": "^4.0.3",
+		"json-schema-to-ts": "^3.1.1",
+		"typescript": "^5.7.3"
+	}
+}

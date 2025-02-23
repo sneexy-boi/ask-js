@@ -1,0 +1,15 @@
+built
+build
+.svelte-kit
+.npmrc
+.env
+.editorconfig
+*.pem
+LICENSE
+uploads
+/sonic
+.pnpm-store
+.idea
+pnpm-lock.yaml
+.envrc
+.DS_store

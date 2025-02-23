@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"outDir": "built",
+		"rootDir": "src",
+		"allowJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": false,
+		"moduleResolution": "bundler",
+		"noImplicitAny": false,
+		"strictPropertyInitialization": false,
+		"removeComments": true
+	},
+	"watchOptions": {
+		"watchFile": "useFsEvents",
+		"watchDirectory": "useFsEvents",
+		"fallbackPolling": "dynamicPriority",
+		"synchronousWatchDirectory": true,
+		"excludeDirectories": ["node_modules", "build"]
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "build"]
+}
