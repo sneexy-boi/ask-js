@@ -2,6 +2,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import lookupUser from '$lib/api/lookupUser.js';
 	import AskForm from '$lib/components/AskForm.svelte';
+	import UserTimeline from '$lib/components/UserTimeline.svelte';
 
 	let props = $props();
 	console.log(props.data);
@@ -22,4 +23,5 @@
 	<p>"{#if $query.data?.prompt}{$query.data?.prompt}{:else}<i>No prompt</i>{/if}"</p>
 
 	<AskForm userId={$query.data.id} />
+	<UserTimeline userId={$query.data.id} />
 {/if}
