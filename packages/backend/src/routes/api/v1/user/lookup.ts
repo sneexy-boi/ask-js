@@ -8,21 +8,23 @@ export default plugin(async (fastify) => {
 		params: {
 			type: 'object',
 			properties: {
-				id: { type: 'string' }
+				username: { type: 'string' }
 			},
-			required: ['id']
+			required: ['username']
 		}
 	} as const;
 
 	fastify.get<{
 		Params: FromSchema<typeof schema.params>;
 	}>(
-		'/api/v1/user/:id',
+		'/api/v1/user/lookup/:username',
 		{
 			schema: schema
 		},
 		async (req, reply) => {
-			const user = await UserService.get({ id: req.params.id });
+			const user = await UserService.get({
+				username: req.params.username
+			});
 
 			if (!user)
 				return reply.status(404).send({ message: 'User not found' });
