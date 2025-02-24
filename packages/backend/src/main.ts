@@ -8,7 +8,7 @@ import * as path from 'node:path';
 import db from './utils/db.js';
 import AuthService from './services/AuthService.js';
 import fastifyAuth from '@fastify/auth';
-import fastifyVite from '@fastify/vite';
+import { handler } from 'frontend/build/handler.js';
 
 const adminIds = Array.from(process.env.ADMIN_IDS ?? []);
 
@@ -58,6 +58,9 @@ fastify
 	.register(fastifyAuth)
 	.register(fastifyAutoload, {
 		dir: path.join(process.cwd(), 'built', 'routes')
+	})
+	.get('/*', (req, reply) => {
+		handler(req.raw, reply.raw, () => {});
 	});
 
 await fastify;

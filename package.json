@@ -9,9 +9,13 @@
 		"packages/backend"
 	],
 	"scripts": {
-		"dev": "pnpm --filter backend dev",
-		"build": "pnpm --filter backend build",
 		"start": "pnpm --filter backend start",
+		"build": "pnpm --filter=frontend build && pnpm --filter=backend build",
+		"build-be": "pnpm --filter=backend build",
+		"build-fe": "pnpm --filter=frontend build",
+		"dev": "pnpm build && npm-run-all --parallel dev-fe dev-be",
+		"dev-be": "pnpm --filter=backend dev",
+		"dev-fe": "pnpm --filter=frontend dev",
 		"migration:apply": "pnpm --filter backend migrate",
 		"migration:revert": "pnpm --filter backend revert",
 		"migration:generate": "pnpm --filter backend generateMigration",
