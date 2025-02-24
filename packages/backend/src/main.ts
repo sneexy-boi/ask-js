@@ -6,6 +6,9 @@ import fastifyApiReference from '@scalar/fastify-api-reference';
 import fastifyAutoload from '@fastify/autoload';
 import * as path from 'node:path';
 import db from './utils/db.js';
+import AuthService from './services/AuthService.js';
+import fastifyAuth from '@fastify/auth';
+import fastifyVite from '@fastify/vite';
 
 const adminIds = Array.from(process.env.ADMIN_IDS ?? []);
 
@@ -42,9 +45,22 @@ fastify
 		routePrefix: '/api-doc',
 		configuration: {}
 	})
+	.decorate('requireAuth', async (req, reply) => {
+		let auth = await AuthService.verifyToken(req.headers.authorization);
+		if (auth.error) throw new Error(auth.message);
+		req.auth = auth?.auth;
+	})
+	.decorate('optionalAuth', async (req, reply, done) => {
+		req.auth = (
+			await AuthService.verifyToken(req.headers.authorization)
+		)?.auth;
+	})
+	.register(fastifyAuth)
 	.register(fastifyAutoload, {
 		dir: path.join(process.cwd(), 'built', 'routes')
 	});
+
+await fastify;
 
 fastify.listen(
 	{ port: Number(process.env.PORT ?? 3579) },

@@ -1,18 +1,64 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
+import { In, IsNull, LessThan, Not } from 'typeorm';
+import TimelineService from '../../../../services/TimelineService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
-		tags: ['Timeline']
+		tags: ['Timeline'],
+		params: {
+			type: 'object',
+			properties: {
+				id: { type: 'string' }
+			},
+			required: ['id']
+		},
+		querystring: {
+			type: 'object',
+			properties: {
+				since: { type: ['string', 'null'] },
+				take: { type: ['number', 'null'] }
+			}
+		}
 	} as const;
 
-	fastify.get<{}>(
-		'/api/v1/timeline',
+	fastify.get<{
+		Params: FromSchema<typeof schema.params>;
+		Querystring: FromSchema<typeof schema.querystring>;
+	}>(
+		'/api/v1/timeline/:id',
 		{
-			schema: schema
+			schema: schema,
+			preHandler: fastify.auth([fastify.optionalAuth])
 		},
 		async (req, reply) => {
-			return reply.status(501).send();
+			let where = {
+				to: req.params.id
+			};
+
+			console.log(req.auth?.user, req.params.id);
+			if (req.auth?.user === req.params.id) {
+				where['visibility'] = In(['public', 'private']);
+			} else {
+				where['visibility'] = 'public';
+			}
+
+			let take;
+
+			if (req.query.since) where['createdAt'] = LessThan(req.query.since);
+			if (req.query.take) take = req.query.take;
+
+			console.log(where);
+
+			return await TimelineService.get(
+				'ask',
+				where,
+				'ask.createdAt',
+				take
+			).then((e) => {
+				if (e && e.length > 0) return reply.status(200).send(e);
+				return reply.status(204).send();
+			});
 		}
 	);
 });

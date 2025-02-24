@@ -6,8 +6,24 @@ import db from '../utils/db.js';
 import UserService from './UserService.js';
 
 class AuthService {
-	public async verifyToken(token: string): Promise<boolean> {
-		return false;
+	public async verifyToken(token: string) {
+		let auth = await db
+			.getRepository('auth')
+			.findOne({
+				where: { token: (token ?? '').replace('Bearer ', '') }
+			});
+
+		if (!auth)
+			return {
+				error: true,
+				message: 'Token invalid'
+			};
+
+		return {
+			error: false,
+			message: 'Authenticated',
+			auth: auth
+		};
 	}
 
 	public async generateToken(userId: string) {
