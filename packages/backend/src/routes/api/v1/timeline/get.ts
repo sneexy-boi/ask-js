@@ -41,6 +41,7 @@ export default plugin(async (fastify) => {
 				where['visibility'] = In(['public', 'private']);
 			} else {
 				where['visibility'] = 'public';
+				where['response'] = Not(IsNull());
 			}
 
 			let take;
