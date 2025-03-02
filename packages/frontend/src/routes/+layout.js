@@ -15,7 +15,7 @@ if (browser) {
 	} catch {}
 
 	if (selfParsed) {
-		await Https.get('/api/v1/user/' + selfParsed.id).then((e) => {
+		Https.get('/api/v1/user/' + selfParsed.id).then((e) => {
 			if (e.id !== undefined) {
 				localStore.set('self', JSON.stringify(e));
 			}
