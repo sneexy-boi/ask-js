@@ -6,6 +6,13 @@
 	let { data, onResponsePage = false } = $props()
 
 	let response = $state("")
+	let deleted = $state(false)
+
+	async function deleteAsk() {
+		await Https.delete("/api/v1/ask/" + data.id).then(() => {
+			deleted = true;
+		})
+	}
 
 	async function respond() {
 		await Https.post("/api/v1/ask/" + data.id + "/respond", {
@@ -39,7 +46,7 @@
 			{/if}
 
 			<div class="end">
-				<button class="btn danger">
+				<button class="btn danger" onclick={() => deleteAsk()}>
 					Delete
 				</button>
 			</div>
@@ -47,6 +54,7 @@
 	{/if}
 {/snippet}
 
+{#if !deleted}
 <div class="ask">
 	{#if data.cw}
 		<details>
@@ -57,6 +65,7 @@
 		{@render inner()}
 	{/if}
 </div>
+{/if}
 
 <style lang="scss">
 	.ask {

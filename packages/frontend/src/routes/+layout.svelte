@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/state';
-	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import { createQuery, QueryClientProvider } from '@tanstack/svelte-query';
 	import queryClient from '$lib/queryClient.js';
 	import localStore from '$lib/localStore.js';
 
@@ -24,17 +24,21 @@
 				<div class="right">
 					{#if selfParsed}
 						<div class="btnCtn">
-							<a class="btn tertiary" href="/inbox">Inbox</a>
-							<a class="btn tertiary" href={"/@"+selfParsed.username}>My Page</a>
+							{#if selfParsed.admin}
+								<a class="btn nav" href={"/admin"}>Admin</a>
+							{/if}
+							<a class="btn nav" href="/inbox">Inbox</a>
+							<a class="btn nav" href={"/@"+selfParsed.username}>My Page</a>
+							<a class="btn danger" href={"/logout"}>Logout</a>
 						</div>
 					{:else}
 						<div class="btnCtn">
 							<a class="btn accent" href="/login">
 								Login
 							</a>
-							<a class="btn tertiary" href="/register">
-								Register
-							</a>
+								<a class="btn nav" href="/register">
+									Register
+								</a>
 						</div>
 					{/if}
 				</div>

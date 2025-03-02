@@ -2,7 +2,9 @@ import { browser } from '$app/environment';
 
 let defaults = {
 	self: undefined,
-	token: undefined
+	token: undefined,
+
+	meta: undefined
 };
 
 class LocalStore {

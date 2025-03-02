@@ -2,6 +2,9 @@
 	import Https from '$lib/https.js';
 	import localStore from '$lib/localStore.js';
 	import { goto } from '$app/navigation';
+	import { createQuery } from '@tanstack/svelte-query';
+	import getMyTimeline from '$lib/api/getMyTimeline.js';
+	import getMeta from '$lib/api/getMeta.js';
 
 	let { userId } = $props()
 
@@ -10,11 +13,13 @@
 
 	let username = $state("")
 	let password = $state("")
+	let invite = $state("")
 
 	async function submit() {
-		await Https.post("/api/v1/auth/login", {
+		await Https.post("/api/v1/auth/register", {
 			username: username,
 			password: password,
+			invite: invite,
 		}).then((e) => {
 			if (e.token !== undefined) {
 				okay = true
@@ -29,9 +34,20 @@
 			error = err?.message ?? "Something went wrong"
 		})
 	}
+
+	const metaQuery = createQuery({
+		queryKey: ['meta'],
+		retry: false,
+		queryFn: async () => await getMeta()
+	});
 </script>
 
-<div class="form centered">
+{#if $metaQuery.isLoading}
+	<p>Loading instance information</p>
+{:else if $metaQuery.isError}
+	<p>Error loading instance information</p>
+{:else if $metaQuery.isSuccess}
+	<div class="form centered">
 	<div class="inner">
 		{#if !okay}
 			{#if error.length > 0}
@@ -40,11 +56,22 @@
 				</div>
 			{/if}
 
+			{#if $metaQuery.data.registrations !== "closed"}
 			<input class="ipt" bind:value={username} placeholder="Username" />
 			<input class="ipt" bind:value={password} placeholder="Password" type="password" />
-			<button class="btn" onclick={() => submit()}>Login</button>
+
+			{#if $metaQuery.data.registrations === "invite"}
+				<input class="ipt" bind:value={invite} placeholder="Invite" />
+			{/if}
+
+			<button class="btn" onclick={() => submit()}>Register</button>
+
+			{:else}
+				<p>Registrations are closed</p>
+			{/if}
 		{:else}
-			<p>Logged in, redirecting...</p>
+			<p>Registered, redirecting...</p>
 		{/if}
 	</div>
 </div>
+{/if}

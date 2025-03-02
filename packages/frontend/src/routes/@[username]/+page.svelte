@@ -8,7 +8,7 @@
 	console.log(props.data);
 
 	const query = createQuery({
-		queryKey: ['user'],
+		queryKey: ['user_'+props.data.username],
 		retry: false,
 		queryFn: async () => await lookupUser(props.data.username)
 	});

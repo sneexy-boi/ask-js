@@ -16,4 +16,7 @@ export class User {
 
 	@Column({ nullable: true })
 	prompt: string;
+
+	@Column({ default: false })
+	admin: boolean;
 }

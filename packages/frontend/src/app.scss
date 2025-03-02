@@ -91,6 +91,7 @@ small {
 .btn {
 	text-decoration: none;
 	user-select: none;
+	cursor: pointer;
 }
 
 .btn,.ipt {
@@ -130,6 +131,12 @@ small {
 	&.accent {
 		background: var(--ac-1-50);
 		color: var(--ac-1);
+	}
+
+	&.nav {
+		&:hover {
+			background: var(--bg-3);
+		}
 	}
 }
 
@@ -181,6 +188,19 @@ small {
 	main {
 		padding: 16px;
 		height: calc(100vh - 50px);
+	}
+}
+
+.error {
+	padding: 8px 10px;
+	color: var(--danger-1);
+	background: var(--danger-1-50);
+	border-radius: 6px;
+	width: 100%;
+	box-sizing: border-box;
+
+	&.mb {
+		margin-bottom: 10px;
 	}
 }
 
