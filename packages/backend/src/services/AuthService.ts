@@ -7,11 +7,9 @@ import UserService from './UserService.js';
 
 class AuthService {
 	public async verifyToken(token: string) {
-		let auth = await db
-			.getRepository('auth')
-			.findOne({
-				where: { token: (token ?? '').replace('Bearer ', '') }
-			});
+		let auth = await db.getRepository('auth').findOne({
+			where: { token: (token ?? '').replace('Bearer ', '') }
+		});
 
 		if (!auth)
 			return {

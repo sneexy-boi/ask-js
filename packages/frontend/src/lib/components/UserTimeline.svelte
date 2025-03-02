@@ -17,8 +17,6 @@
 {:else if $query.isError}
 	<p>Error loading asks</p>
 {:else if $query.isSuccess}
-	<h2>Asks</h2>
-
 	{#each $query.data as data}
 		<AskAndResponse {data} />
 	{/each}

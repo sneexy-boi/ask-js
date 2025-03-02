@@ -18,32 +18,37 @@
 	}
 </script>
 
-<div class="askForm">
-	<input bind:value={cw} placeholder="Content warning" />
+<div class="form">
+	<div class="inner wide">
+		<input class="ipt" bind:value={cw} placeholder="Content warning" />
 
-	<textarea bind:value={content} required placeholder="Question">
-	</textarea>
+		<textarea class="ipt" bind:value={content} required placeholder="Question">
+		</textarea>
 
-	<input bind:value={nickname} placeholder="Nickname" />
+		<input class="ipt" bind:value={nickname} placeholder="Nickname" />
 
-	<select bind:value={visibility}>
-		<option value="public">Public</option>
-		<option value="public">Private</option>
-	</select>
+		<div class="visAndSubmit">
+			<div class="left">
+				<select class="ipt" bind:value={visibility}>
+					<option value="public">Public</option>
+					<option value="public">Private</option>
+				</select>
+			</div>
 
-	<button onclick={() => submit()}>Send</button>
+			<button class={"btn" + (content.length > 0 ? " accent" : "")} onclick={() => submit()}>Send</button>
+		</div>
+	</div>
 </div>
 
 <style lang="scss" scoped>
-	.askForm {
+	.visAndSubmit {
 		display: flex;
-		flex-direction: column;
-		gap: 4px;
+		align-items: center;
+		width: 100%;
+		gap: 5px;
 
-		max-width: 450px;
-
-		button {
-			width: 100px;
+		.left {
+			flex-grow: 1;
 		}
 	}
 </style>

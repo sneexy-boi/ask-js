@@ -1,3 +1,194 @@
 :root {
-	
+	--bg-1: #140e1b;
+	--bg-2: #1a1423;
+	--bg-3: #261e37;
+	--bg-4: #3f325a;
+
+	--bg-1-50: #140e1b50;
+	--bg-2-50: #1a142350;
+	--bg-3-50: #261e3750;
+	--bg-4-50: #3f325a50;
+
+	--bg-1-75: #140e1b75;
+	--bg-2-75: #1a142375;
+	--bg-3-75: #261e3775;
+	--bg-4-75: #3f325a75;
+
+	--tx-1: #f3efff;
+	--tx-2: #d8cdf1;
+	--tx-3: #9688bd;
+
+	--ac-1: #865fdf;
+	--ac-1-50: #865fdf50;
+}
+
+body {
+	background: var(--bg-1);
+	color: var(--tx-2);
+	margin: 0;
+
+	overflow-x: hidden;
+
+	font-family: system-ui;
+}
+
+h1,
+h2 {
+	color: var(--tx-1);
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+p,i,a {
+	font-size: 14px;
+}
+
+a {
+	color: var(--ac-1);
+	text-decoration-color: var(--ac-1-50);
+
+	&.subtle {
+		color: var(--tx-2);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+			text-decoration-color: var(--ac-1-50);
+		}
+	}
+}
+
+.btnCtn {
+	display: flex;
+	gap: 5px;
+
+	&.wideGap {
+		gap: 10px;
+	}
+}
+
+.btn {
+	text-decoration: none;
+}
+
+.btn,.ipt {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+
+	border-radius: 6px;
+	padding: 8px 12px;
+
+	border: none;
+
+	font-family: system-ui;
+	font-size: 14px;
+
+	transition:
+		0.1s,
+		width 0s,
+		height 0s,
+		outline 0s;
+
+	color: var(--tx-2);
+	background: var(--bg-2);
+
+	&:focus-visible {
+		outline: 2px solid var(--ac-1-50);
+		outline-offset: 1px;
+	}
+
+	&.tertiary {
+		background: var(--bg-3);
+	}
+	&.accent {
+		background: var(--ac-1-50);
+		color: var(--ac-1);
+	}
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	width: 100vw;
+	height: 100vh;
+
+	main {
+		max-width: 675px;
+		min-width: 275px;
+		width: 100%;
+
+		box-sizing: border-box;
+	}
+
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 50px;
+
+		background: var(--bg-2);
+		width: 100%;
+
+		.inner {
+			display: flex;
+			align-items: center;
+
+			width: 675px;
+			padding: 0 16px;
+			box-sizing: border-box;
+
+			.left {
+				display: flex;
+				flex-grow: 1;
+			}
+
+			.right {
+				display: flex;
+			}
+		}
+	}
+
+	main {
+		padding: 16px;
+		height: calc(100vh - 50px);
+	}
+}
+
+.form {
+	display: flex;
+
+	&.centered {
+		justify-content: center;
+	}
+
+	.inner {
+		display: flex;
+		align-items: start;
+		flex-direction: column;
+		gap: 4px;
+
+		max-width: 250px;
+		width: 100%;
+
+		&.wide {
+			max-width: 450px;
+		}
+
+		input,
+		textarea {
+			width: 100%;
+		}
+
+		textarea {
+			min-height: 65px;
+			resize: vertical;
+		}
+	}
 }

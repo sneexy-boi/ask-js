@@ -2,26 +2,24 @@
 	let { data } = $props()
 </script>
 
+{#snippet inner()}
+	<div class="question">
+		<p>{data.content}</p>
+		<i class="asker">- {data?.nickname ?? 'Anonymous'}</i>
+	</div>
+	<div class="response">
+		<p>{data.response}</p>
+	</div>
+{/snippet}
+
 <div class="ask">
 	{#if data.cw}
 		<details>
 			<summary>{data.cw}</summary>
-			<div class="question">
-				<p>{data.content}</p>
-				<i>- {data?.nickname ?? 'Anonymous'}</i>
-			</div>
-			<div class="response">
-				<p>{data.response}</p>
-			</div>
+			{@render inner()}
 		</details>
 	{:else}
-		<div class="question">
-			<p>{data.content}</p>
-			<i>- {data?.nickname ?? 'Anonymous'}</i>
-		</div>
-		<div class="response">
-			<p>{data.response}</p>
-		</div>
+		{@render inner()}
 	{/if}
 </div>
 
@@ -29,7 +27,12 @@
 	.ask {
 		display: flex;
 		flex-direction: column;
-		border: 1px solid gray;
+
+		background: var(--bg-2);
+		color: var(--tx-2);
+
+		border-radius: 6px;
+		overflow: clip;
 
 		margin-bottom: 4px;
 	}
@@ -42,10 +45,15 @@
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
-		padding: 6px;
+
+		padding: 10px;
 	}
 
 	.question {
-		background: #00000020;
+		background: var(--bg-3-75);
+
+		.asker {
+			color: var(--tx-3);
+		}
 	}
 </style>
