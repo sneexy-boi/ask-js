@@ -82,6 +82,24 @@
 		margin-bottom: 10px;
 	}
 
+	summary {
+		background: var(--bg-3);
+		padding: 8px 12px;
+		font-size: 14px;
+	}
+
+	details:first-of-type summary::marker,
+	:is(::-webkit-details-marker) {
+		content: "+ ";
+		font-weight: 700;
+		// same width
+		font-family: monospace;
+
+	}
+	details[open]:first-of-type summary::marker {
+		content: "- ";
+	}
+
 	p {
 		margin: 0;
 	}
