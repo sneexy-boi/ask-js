@@ -4,9 +4,9 @@
 	"type": "module",
 	"private": "true",
 	"scripts": {
-		"start": "node --env-file=../../.env --no-warnings built/main.js",
+		"start": "node --no-warnings built/main.js",
 		"dev": "npm-run-all --parallel build-dev start-dev",
-		"start-dev": "node --env-file=../../.env --watch --watch-preserve-output built/main.js",
+		"start-dev": "node --watch --watch-preserve-output built/main.js",
 		"build": "swc src -d built --strip-leading-paths",
 		"build-dev": "swc src -d built --strip-leading-paths --watch",
 		"migrate": "pnpm exec typeorm migration:run -d ./built/utils/db.js",

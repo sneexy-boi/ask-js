@@ -9,8 +9,7 @@ import db from './utils/db.js';
 import AuthService from './services/AuthService.js';
 import fastifyAuth from '@fastify/auth';
 import { handler } from 'frontend/build/handler.js';
-
-const adminIds = Array.from(process.env.ADMIN_IDS ?? []);
+import config from '../../../config/config.json' with { type: 'json' };
 
 const fastify = Fastify({
 	logger: true
@@ -65,12 +64,9 @@ fastify
 
 await fastify;
 
-fastify.listen(
-	{ port: Number(process.env.PORT ?? 3579) },
-	function (err, address) {
-		if (err) {
-			fastify.log.error(err);
-			process.exit(1);
-		}
+fastify.listen({ port: Number(config.port ?? 3579) }, function (err, address) {
+	if (err) {
+		fastify.log.error(err);
+		process.exit(1);
 	}
-);
+});

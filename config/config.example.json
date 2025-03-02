@@ -1,0 +1,12 @@
+{
+	"$schema": "./config.schema.json",
+	"port": 3579,
+	"registrations": "open",
+	"db": {
+		"host": "localhost",
+		"port": 5432,
+		"user": "askjs",
+		"pass": "askjs",
+		"name": "askjs"
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"properties": {
+		"port": {
+			"type": "integer",
+			"description": "Port for the server to listen to"
+		},
+		"registrations": {
+			"type": "string",
+			"description": "How to handle account registrations",
+			"enum": ["open","invite","approval","closed"]
+		},
+		"db": {
+			"type": "object",
+			"properties": {
+				"host": {
+					"type": "string"
+				},
+				"port": {
+					"type": "integer"
+				},
+				"user": {
+					"type": "string"
+				},
+				"pass": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				}
+			},
+			"required": ["user","name"]
+		}
+	},
+	"required": ["port","registrations","db"]
+}

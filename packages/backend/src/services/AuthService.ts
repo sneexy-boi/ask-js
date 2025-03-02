@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import IdService from './IdService.js';
 import db from '../utils/db.js';
 import UserService from './UserService.js';
+import config from '../../../../config/config.json' with { type: 'json' };
 
 class AuthService {
 	public async verifyToken(token: string) {
@@ -44,14 +45,14 @@ class AuthService {
 		password: string,
 		invite?: string
 	) {
-		if (process.env.REGISTRATIONS === 'closed')
+		if (config.registrations === 'closed')
 			return {
 				error: true,
 				status: 400,
 				message: 'Registrations are closed'
 			};
 
-		if (process.env.REGISTRATIONS === 'invite') {
+		if (config.registrations === 'invite') {
 			if (!invite)
 				return {
 					error: true,
@@ -101,7 +102,7 @@ class AuthService {
 		await db.getRepository('user').insert(user);
 		await db.getRepository('user_private').insert(userPrivate);
 
-		if (process.env.REGISTRATIONS === 'invite') {
+		if (config.registrations === 'invite') {
 			await db.getRepository('invite').update(
 				{
 					invite: invite
