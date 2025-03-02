@@ -1,15 +1,50 @@
 <script>
-	let { data } = $props()
+	import Https from '$lib/https.js';
+	import localStore from '$lib/localStore.js';
+	import { goto } from '$app/navigation';
+
+	let { data, onResponsePage = false } = $props()
+
+	let response = $state("")
+
+	async function respond() {
+		await Https.post("/api/v1/ask/" + data.id + "/respond", {
+			response: response
+		}).then(() => {
+			data.response = response;
+		})
+	}
 </script>
 
 {#snippet inner()}
 	<div class="question">
 		<p>{data.content}</p>
-		<i class="asker">- {data?.nickname ?? 'Anonymous'}</i>
+		<br>
+		<small class="time">{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()} {data.visibility === "private" ? "(Private)" : ""}</small>
+		<i class="asker">- {data?.nickname || data?.nickname?.length > 0 ? data?.nickname : 'Anonymous'}</i>
 	</div>
 	<div class="response">
-		<p>{data.response}</p>
+		{#if data.response}
+			<p>{data.response}</p>
+		{:else if onResponsePage}
+			<input class="ipt tertiary" bind:value={response} placeholder="Write your response..." />
+		{/if}
 	</div>
+	{#if onResponsePage}
+		<div class="btnCtn padded">
+			{#if !data.response}
+				<button class="btn tertiary" onclick={() => respond()}>
+					Respond
+				</button>
+			{/if}
+
+			<div class="end">
+				<button class="btn danger">
+					Delete
+				</button>
+			</div>
+		</div>
+	{/if}
 {/snippet}
 
 <div class="ask">
@@ -34,7 +69,7 @@
 		border-radius: 6px;
 		overflow: clip;
 
-		margin-bottom: 4px;
+		margin-bottom: 10px;
 	}
 
 	p {
