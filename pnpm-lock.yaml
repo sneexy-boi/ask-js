@@ -103,6 +103,9 @@ importers:
 
   packages/frontend:
     dependencies:
+      '@tabler/icons-svelte':
+        specifier: ^3.30.0
+        version: 3.30.0(svelte@5.20.2)
       '@tanstack/svelte-query':
         specifier: ^5.66.9
         version: 5.66.9(svelte@5.20.2)
@@ -871,6 +874,14 @@ packages:
   '@szmarczak/http-timer@5.0.1':
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
+
+  '@tabler/icons-svelte@3.30.0':
+    resolution: {integrity: sha512-zTvPHoM1srGGZUi+JrGlRQNmOsNJY3Ss1PQSjecN0x9bsW3E7ZDLEPE6MDYMi/1ElWECmVqqZtNouszotcz0SA==}
+    peerDependencies:
+      svelte: '>=3 <6 || >=5.0.0-next.0'
+
+  '@tabler/icons@3.30.0':
+    resolution: {integrity: sha512-c8OKLM48l00u9TFbh2qhSODMONIzML8ajtCyq95rW8vzkWcBrKRPM61tdkThz2j4kd5u17srPGIjqdeRUZdfdw==}
 
   '@tanstack/query-core@5.66.4':
     resolution: {integrity: sha512-skM/gzNX4shPkqmdTCSoHtJAPMTtmIJNS0hE+xwTTUVYwezArCT34NMermABmBVUg5Ls5aiUXEDXfqwR1oVkcA==}
@@ -3337,6 +3348,13 @@ snapshots:
   '@szmarczak/http-timer@5.0.1':
     dependencies:
       defer-to-connect: 2.0.1
+
+  '@tabler/icons-svelte@3.30.0(svelte@5.20.2)':
+    dependencies:
+      '@tabler/icons': 3.30.0
+      svelte: 5.20.2
+
+  '@tabler/icons@3.30.0': {}
 
   '@tanstack/query-core@5.66.4': {}
 

@@ -3,6 +3,7 @@
 	import lookupUser from '$lib/api/lookupUser.js';
 	import AskForm from '$lib/components/AskForm.svelte';
 	import UserTimeline from '$lib/components/UserTimeline.svelte';
+	import Avatar from '$lib/components/Avatar.svelte';
 
 	let props = $props();
 	console.log(props.data);
@@ -22,9 +23,7 @@
 	<div>
 		<div class="prompt">
 			<div class="left">
-				{#if $query.data?.avatar}
-					<img class="avatar" src={$query.data?.avatar} />
-				{/if}
+				<Avatar user={$query.data} size={45} />
 			</div>
 			<div class="right">
 				<p>"{#if $query.data?.prompt}{$query.data?.prompt}{:else}<i>No prompt</i>{/if}"</p>
@@ -44,7 +43,7 @@
 <style lang="scss" global>
 	.prompt {
 		display: flex;
-		gap: 4px;
+		gap: 10px;
 
 		margin-bottom: 20px;
 
@@ -71,5 +70,9 @@
 		gap: 4px;
 
 		margin-top: 20px;
+
+		h2 {
+			margin-bottom: 10px;
+		}
 	}
 </style>

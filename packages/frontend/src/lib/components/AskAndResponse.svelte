@@ -2,6 +2,7 @@
 	import Https from '$lib/https.js';
 	import localStore from '$lib/localStore.js';
 	import { goto } from '$app/navigation';
+	import { IconGlobe, IconLock, IconLogout, IconWorld } from '@tabler/icons-svelte';
 
 	let { data, onResponsePage = false } = $props()
 
@@ -27,7 +28,7 @@
 	<div class="question">
 		<p>{data.content}</p>
 		<br>
-		<small class="time">{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()} {data.visibility === "private" ? "(Private)" : ""}</small>
+		<small class="time">{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()} {#if data.visibility === "private"}<IconLock size="16px" />{:else}<IconWorld size="16px" />{/if}</small>
 		<i class="asker">- {data?.nickname || data?.nickname?.length > 0 ? data?.nickname : 'Anonymous'}</i>
 	</div>
 	<div class="response">
@@ -96,8 +97,10 @@
 	.question {
 		background: var(--bg-3-75);
 
-		.asker {
-			color: var(--tx-3);
+		small {
+			display: flex;
+			align-items: center;
+			gap: 5px;
 		}
 	}
 </style>

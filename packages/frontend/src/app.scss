@@ -101,6 +101,7 @@ small {
 
 	border-radius: 6px;
 	padding: 8px 12px;
+	gap: 6px;
 
 	border: none;
 
@@ -134,7 +135,9 @@ small {
 	}
 
 	&.nav {
-		&:hover {
+		padding: 8px;
+
+		&:not(.danger):hover {
 			background: var(--bg-3);
 		}
 	}
@@ -189,6 +192,12 @@ small {
 		padding: 16px;
 		height: calc(100vh - 50px);
 	}
+}
+
+.acct {
+	display: flex;
+	flex-direction: column;
+	padding: 8px 12px;
 }
 
 .error {

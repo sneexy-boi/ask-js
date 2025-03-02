@@ -20,6 +20,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@tabler/icons-svelte": "^3.30.0",
 		"@tanstack/svelte-query": "^5.66.9",
 		"sass": "^1.83.0",
 		"uuid": "^11.0.4"

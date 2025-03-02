@@ -3,6 +3,8 @@
 	import { createQuery, QueryClientProvider } from '@tanstack/svelte-query';
 	import queryClient from '$lib/queryClient.js';
 	import localStore from '$lib/localStore.js';
+	import Avatar from '$lib/components/Avatar.svelte';
+	import { IconDashboard, IconInbox, IconLogout } from '@tabler/icons-svelte';
 
 	let selfRaw = localStore.get("self");
 	let selfParsed = undefined;
@@ -23,13 +25,23 @@
 				</div>
 				<div class="right">
 					{#if selfParsed}
-						<div class="btnCtn">
+						<div class="btnCtn wideGap">
 							{#if selfParsed.admin}
-								<a class="btn nav" href={"/admin"}>Admin</a>
+								<a class="btn nav" href={"/admin"}>
+									<IconDashboard size="18px" />
+									Admin
+								</a>
 							{/if}
-							<a class="btn nav" href="/inbox">Inbox</a>
-							<a class="btn nav" href={"/@"+selfParsed.username}>My Page</a>
-							<a class="btn danger" href={"/logout"}>Logout</a>
+							<a class="btn nav" href="/inbox">
+								<IconInbox size="18px" />
+								Inbox
+							</a>
+
+							<Avatar user={selfParsed} />
+
+							<a class="btn nav danger" href={"/logout"}>
+								<IconLogout size="18px" />
+							</a>
 						</div>
 					{:else}
 						<div class="btnCtn">
