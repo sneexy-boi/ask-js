@@ -20,7 +20,7 @@
 	<ul>
 		{#each $query.data as user}
 			<li>
-				<a href={"/@"+user.username}>{user.username}</a>
+				<a href={"/@"+user.username}>{user.displayName ? (user.displayName + " (@"+user.username+")") : "@"+user.username}</a>
 			</li>
 		{/each}
 	</ul>

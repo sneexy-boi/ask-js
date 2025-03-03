@@ -141,6 +141,19 @@ small {
 			background: var(--bg-3);
 		}
 	}
+
+	&.wide {
+		width: 100%;
+	}
+	&.centered {
+		justify-content: center;
+	}
+}
+
+label {
+	font-size: 13px;
+	color: var(--tx-2);
+	margin-top: 5px;
 }
 
 .page {
@@ -231,6 +244,12 @@ small {
 
 		&.wide {
 			max-width: 450px;
+		}
+
+		.title {
+			font-size: 16px;
+			font-weight: 600;
+			margin-bottom: 5px;
 		}
 
 		input,

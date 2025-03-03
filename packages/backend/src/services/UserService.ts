@@ -19,6 +19,10 @@ class UserService {
 	public async getPrivate(where: ObjectLiteral) {
 		return await db.getRepository('user_private').findOne({ where: where });
 	}
+
+	public async update(where: ObjectLiteral, partial: Partial<ObjectLiteral>) {
+		return db.getRepository('user').update(where, partial);
+	}
 }
 
 export default new UserService();
