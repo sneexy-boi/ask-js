@@ -1,3 +1,9 @@
 # ask-js
 
-basic ask software
+multiuser ask server.
+
+## use
+run `pnpm i` to get dependencies\
+example config is at `config/config.example.json`, copy to `config/config.json` and edit it so it works. use postgres for your database\
+run `pnpm migrate` and then your database is prepared\
+run `pnpm start` and it'll be running! use pm2 to keep it going or something else.
