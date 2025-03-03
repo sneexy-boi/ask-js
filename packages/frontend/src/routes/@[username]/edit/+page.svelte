@@ -1,12 +1,11 @@
 <script>
 	import { page } from '$app/state';
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createQuery, QueryObserver } from '@tanstack/svelte-query';
 	import lookupUser from '$lib/api/lookupUser.js';
 	import Https from '$lib/https.js';
-	import localStore from '$lib/localStore.js';
-	import { goto } from '$app/navigation';
+	import queryClient from '$lib/queryClient.js';
 
-	let username = $state(page.params?.username);
+	let username = $state(page.params?.username ?? "");
 
 	let error = $state("")
 	let values = $state({
@@ -19,13 +18,13 @@
 		queryKey: ['user_'+username],
 		retry: false,
 		queryFn: async () => await lookupUser(username)
-	});
+	})
 
-	function updateValue() {
-		values = $query.data;
+	function updateValue(data) {
+		values = data ?? values;
 	}
 
-	updateValue()
+	updateValue($query.data);
 
 	async function submit() {
 		console.log($query.data)
@@ -34,8 +33,8 @@
 			error = err?.message ?? "Something went wrong"
 		})
 
-		await $query.refetch().then(() => {
-			updateValue()
+		await $query.refetch().then((e) => {
+			updateValue(e.data);
 		})
 	}
 </script>
