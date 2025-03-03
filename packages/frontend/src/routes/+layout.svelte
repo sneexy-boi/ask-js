@@ -57,7 +57,9 @@
 			</div>
 		</header>
 		<main>
-			<slot></slot>
+			<div class="inner">
+				<slot></slot>
+			</div>
 		</main>
 	</div>
 </QueryClientProvider>

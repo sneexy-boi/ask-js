@@ -3,23 +3,33 @@
 
 	let { userId } = $props()
 
+	let error = $state("")
+
 	let cw = $state("")
 	let content = $state("")
 	let nickname = $state("")
 	let visibility = $state("public")
 
 	async function submit() {
-		await sendAsk(userId, cw, content, visibility, nickname)
-
-		cw = ""
-		content = ""
-		nickname = ""
-		visibility = "public"
+		await sendAsk(userId, cw, content, visibility, nickname).then(() => {
+			cw = ""
+			content = ""
+			nickname = ""
+			visibility = "public"
+		}).catch((err) => {
+			error = err?.message ?? "Something went wrong"
+		})
 	}
 </script>
 
 <div class="form">
 	<div class="inner wide">
+		{#if error.length > 0}
+			<div class="error mb">
+				<p>{error}</p>
+			</div>
+		{/if}
+
 		<input class="ipt" bind:value={cw} placeholder="Content warning" />
 
 		<textarea class="ipt" bind:value={content} required placeholder="Question">

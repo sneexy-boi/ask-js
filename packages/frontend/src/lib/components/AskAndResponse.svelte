@@ -90,8 +90,6 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 
 		border-radius: 6px;
 		overflow: clip;
-
-		margin-bottom: 10px;
 	}
 
 	summary {
@@ -135,6 +133,7 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 			a {
 				color: var(--tx-3);
 				text-decoration: none;
+				font-size: inherit;
 
 				&:hover {
 					text-decoration: underline;

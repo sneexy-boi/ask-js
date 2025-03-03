@@ -13,7 +13,7 @@ export default plugin(async (fastify) => {
 			schema: schema
 		},
 		async (req, reply) => {
-			const users = await UserService.getMany({}, 'user.id');
+			const users = await UserService.getMany({});
 
 			if (!users)
 				return reply.status(404).send({ message: 'Users not found' });

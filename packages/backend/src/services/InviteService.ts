@@ -1,14 +1,21 @@
 import crypto from 'crypto';
 import { ObjectLiteral } from 'typeorm';
-import IdService from './IdService';
+import IdService from './IdService.js';
+import db from '../utils/db.js';
 
 class UserService {
 	public async get(where: ObjectLiteral) {
-		return;
+		return await db.getRepository('invite').findOne({ where: where });
 	}
 
-	public async getMany(where: ObjectLiteral) {
-		return;
+	public async getMany(where: ObjectLiteral, order?: string, take?: number) {
+		return await db
+			.getRepository('invite')
+			.createQueryBuilder('invite')
+			.where(where)
+			.orderBy(order, 'DESC')
+			.take(take ?? 45)
+			.getMany();
 	}
 
 	public async create(creatorId: string) {
@@ -19,6 +26,13 @@ class UserService {
 			creator: creatorId,
 			createdAt: new Date().toISOString()
 		};
+
+		await db.getRepository('invite').insert(invite);
+		return this.get({ id: invite.id });
+	}
+
+	public async delete(where: ObjectLiteral) {
+		return await db.getRepository('invite').delete(where);
 	}
 }
 

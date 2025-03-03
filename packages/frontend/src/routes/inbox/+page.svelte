@@ -23,7 +23,9 @@
 {:else if $query.isError}
 	<p>Error loading inbox asks</p>
 {:else if $query.isSuccess}
-	{#each $query.data as data}
-		<AskAndResponse {data} onResponsePage={true} />
-	{/each}
+	<div class="tl">
+		{#each $query.data as data}
+			<AskAndResponse {data} onResponsePage={true} />
+		{/each}
+	</div>
 {/if}

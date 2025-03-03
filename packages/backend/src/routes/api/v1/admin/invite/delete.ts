@@ -1,18 +1,43 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
+import UserService from '../../../../../services/UserService.js';
+import InviteService from '../../../../../services/InviteService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
-		tags: ['Admin']
+		tags: ['Admin'],
+		params: {
+			type: 'object',
+			properties: {
+				id: { type: 'string' }
+			},
+			required: ['id']
+		}
 	} as const;
 
-	fastify.delete<{}>(
-		'/api/v1/admin/invite',
+	fastify.delete<{
+		Params: FromSchema<typeof schema.params>;
+	}>(
+		'/api/v1/admin/invite/:id',
 		{
-			schema: schema
+			schema: schema,
+			preHandler: fastify.auth([fastify.requireAuth])
 		},
 		async (req, reply) => {
-			return reply.status(501).send();
+			const requestingUser = await UserService.get({
+				id: req.auth.user
+			});
+
+			if (!requestingUser || !requestingUser.admin)
+				return reply
+					.status(403)
+					.send({ message: 'You are not an admin' });
+
+			return await InviteService.delete({
+				id: req.params.id
+			}).then(() => {
+				return reply.status(200).send();
+			});
 		}
 	);
 });

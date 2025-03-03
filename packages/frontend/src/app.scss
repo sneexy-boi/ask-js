@@ -175,6 +175,9 @@ label {
 		min-width: 275px;
 		width: 100%;
 
+		padding: 16px;
+		height: calc(100vh - 50px);
+
 		box-sizing: border-box;
 	}
 
@@ -204,11 +207,6 @@ label {
 				display: flex;
 			}
 		}
-	}
-
-	main {
-		padding: 16px;
-		height: calc(100vh - 50px);
 	}
 }
 
@@ -248,7 +246,7 @@ label {
 		width: 100%;
 
 		&.wide {
-			max-width: 450px;
+			max-width: 100%;
 		}
 
 		.title {
@@ -266,5 +264,34 @@ label {
 			min-height: 65px;
 			resize: vertical;
 		}
+	}
+}
+
+.tl {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	margin-bottom: 10px;
+	box-sizing: border-box;
+}
+
+.adminHeader {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+
+	.left, .right {
+		display: flex;
+		align-items: center;
+	}
+
+	.right {
+		justify-content: flex-end;
+		flex-grow: 1;
 	}
 }
