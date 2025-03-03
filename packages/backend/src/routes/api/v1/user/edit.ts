@@ -49,9 +49,11 @@ export default plugin(async (fastify) => {
 			if (!user)
 				return reply.status(404).send({ message: 'User not found' });
 
-			const requestingUser = await UserService.get({ id: req.auth.user });
+			const requestingUser = await UserService.get({
+				id: req.auth.user
+			});
 
-			if (requestingUser.id !== user.id || !requestingUser.admin)
+			if (requestingUser.id !== user.id && !requestingUser.admin)
 				return reply
 					.status(503)
 					.send({ message: 'You cannot edit this user' });
