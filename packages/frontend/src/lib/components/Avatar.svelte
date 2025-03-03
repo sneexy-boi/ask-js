@@ -26,6 +26,7 @@
 			background: var(--bg-3);
 
 			color: var(--tx-3);
+			user-select: none;
 		}
 	}
 </style>

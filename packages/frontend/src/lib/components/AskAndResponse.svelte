@@ -1,13 +1,20 @@
 <script>
+	import { page } from '$app/state';
 	import Https from '$lib/https.js';
-	import localStore from '$lib/localStore.js';
-	import { goto } from '$app/navigation';
-	import { IconGlobe, IconLock, IconLogout, IconWorld } from '@tabler/icons-svelte';
+	import { IconCopy, IconLock, IconTrash, IconWorld } from '@tabler/icons-svelte';
 
 	let { data, onResponsePage = false } = $props()
 
 	let response = $state("")
 	let deleted = $state(false)
+
+	function copyAsk() {
+		navigator.clipboard.writeText(`> ${data.content}
+
+${data.response}
+
+${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
+	}
 
 	async function deleteAsk() {
 		await Https.delete("/api/v1/ask/" + data.id).then(() => {
@@ -28,7 +35,7 @@
 	<div class="question">
 		<p>{data.content}</p>
 		<br>
-		<small class="time">{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()} {#if data.visibility === "private"}<IconLock size="16px" />{:else}<IconWorld size="16px" />{/if}</small>
+		<small class="time"><a href={"/ask/"+data.id}>{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()}</a> {#if data.visibility === "private"}<IconLock size="16px" />{:else}<IconWorld size="16px" />{/if}</small>
 		<i class="asker">- {data?.nickname || data?.nickname?.length > 0 ? data?.nickname : 'Anonymous'}</i>
 	</div>
 	<div class="response">
@@ -47,7 +54,12 @@
 			{/if}
 
 			<div class="end">
+				<button class="btn tertiary" onclick={() => copyAsk()}>
+					<IconCopy size="18px" />
+					Copy
+				</button>
 				<button class="btn danger" onclick={() => deleteAsk()}>
+					<IconTrash size="18px" />
 					Delete
 				</button>
 			</div>
@@ -119,6 +131,16 @@
 			display: flex;
 			align-items: center;
 			gap: 5px;
+
+			a {
+				color: var(--tx-3);
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+					text-decoration-color: var(--ac-1-50);
+				}
+			}
 		}
 	}
 </style>

@@ -1,5 +1,6 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
+import AskService from '../../../../services/AskService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -21,7 +22,12 @@ export default plugin(async (fastify) => {
 			schema: schema
 		},
 		async (req, reply) => {
-			return reply.status(501).send();
+			const ask = await AskService.get({ id: req.params.id });
+
+			if (!ask || ask.visibility === 'private' || !ask.response)
+				return reply.status(404).send({ message: 'Ask not found' });
+
+			return reply.status(200).send(ask);
 		}
 	);
 });

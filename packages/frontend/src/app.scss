@@ -73,18 +73,23 @@ small {
 	display: flex;
 	gap: 5px;
 
-	&.wideGap {
-		gap: 10px;
-	}
-	&.padded {
-		padding: 0px 10px 10px 10px;
-	}
-
 	.end {
 		display: flex;
 		justify-content: end;
 		flex-grow: 1;
 		width: 100%;
+		gap: 5px;
+	}
+
+	&.wideGap {
+		gap: 10px;
+
+		.end {
+			gap: 10px;
+		}
+	}
+	&.padded {
+		padding: 0px 10px 10px 10px;
 	}
 }
 
