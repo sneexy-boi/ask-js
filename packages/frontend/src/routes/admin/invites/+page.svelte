@@ -34,7 +34,7 @@
 		<h2>Invites</h2>
 	</div>
 	<div class="right">
-		<button class="btn accent" onclick="{() => generate()}">
+		<button class="btn nav accent" onclick="{() => generate()}">
 			<IconPlus size="18px" />
 			Add
 		</button>

@@ -109,6 +109,9 @@ importers:
       '@tanstack/svelte-query':
         specifier: ^5.66.9
         version: 5.66.9(svelte@5.20.2)
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
       sass:
         specifier: ^1.83.0
         version: 1.85.0
