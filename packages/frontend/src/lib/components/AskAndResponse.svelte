@@ -6,6 +6,7 @@
 	let { data, onResponsePage = false } = $props()
 
 	let response = $state("")
+	let submittedResponse = $state(false)
 	let deleted = $state(false)
 
 	function copyAsk() {
@@ -26,7 +27,7 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		await Https.post("/api/v1/ask/" + data.id + "/respond", {
 			response: response
 		}).then(() => {
-			data.response = response;
+			submittedResponse = true;
 		})
 	}
 </script>
@@ -39,15 +40,15 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		<i class="asker">- {data?.nickname || data?.nickname?.length > 0 ? data?.nickname : 'Anonymous'}</i>
 	</div>
 	<div class="response">
-		{#if data.response}
-			<p>{data.response}</p>
-		{:else if onResponsePage}
+		{#if submittedResponse || data.response}
+			<p>{submittedResponse ? response : data.response}</p>
+		{:else if onResponsePage && !submittedResponse}
 			<input class="ipt tertiary" bind:value={response} placeholder="Write your response..." />
 		{/if}
 	</div>
 	{#if onResponsePage}
 		<div class="btnCtn padded">
-			{#if !data.response}
+			{#if !data.response && !submittedResponse}
 				<button class="btn tertiary" onclick={() => respond()}>
 					Respond
 				</button>
