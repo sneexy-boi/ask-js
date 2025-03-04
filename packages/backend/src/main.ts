@@ -10,9 +10,11 @@ import AuthService from './services/AuthService.js';
 import fastifyAuth from '@fastify/auth';
 import { handler } from 'frontend/build/handler.js';
 import config from '../../../config/config.json' with { type: 'json' };
+import IdService from './services/IdService.js';
 
 const fastify = Fastify({
-	logger: true
+	logger: true,
+	genReqId: () => IdService.generate()
 });
 
 await db.initialize().then(() => {
