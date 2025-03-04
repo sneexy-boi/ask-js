@@ -1,6 +1,7 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
 import UserService from '../../../../services/UserService.js';
+import SanitizerService from '../../../../services/SanitizerService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -70,9 +71,11 @@ export default plugin(async (fastify) => {
 			await UserService.update(
 				{ id: user.id },
 				{
-					avatar: req.body.avatar,
-					displayName: req.body.displayName,
-					prompt: req.body.prompt
+					avatar: SanitizerService.sanitize(req.body.avatar),
+					displayName: SanitizerService.sanitize(
+						req.body.displayName
+					),
+					prompt: SanitizerService.sanitize(req.body.prompt)
 				}
 			);
 

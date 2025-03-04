@@ -5,6 +5,7 @@ import IdService from './IdService.js';
 import db from '../utils/db.js';
 import UserService from './UserService.js';
 import config from '../../../../config/config.json' with { type: 'json' };
+import SanitizerService from './SanitizerService.js';
 
 class AuthService {
 	public async verifyToken(token: string) {
@@ -86,7 +87,7 @@ class AuthService {
 
 		let user = {
 			id: id,
-			username: username
+			username: SanitizerService.sanitize(username)
 		};
 
 		if (config.registrations !== 'approval') user['approved'] = true;

@@ -2,6 +2,7 @@ import { ObjectLiteral } from 'typeorm';
 import UserService from './UserService.js';
 import db from '../utils/db.js';
 import IdService from './IdService.js';
+import SanitizerService from './SanitizerService.js';
 
 class AskService {
 	public async get(where: ObjectLiteral) {
@@ -45,11 +46,11 @@ class AskService {
 
 		const ask = {
 			id: id,
-			to: to,
-			content: content,
+			to: SanitizerService.sanitize(to),
+			content: SanitizerService.sanitize(content),
 			visibility: visibility,
-			cw: cw,
-			nickname: nickname,
+			cw: SanitizerService.sanitize(cw),
+			nickname: SanitizerService.sanitize(nickname),
 			createdAt: new Date().toISOString()
 		};
 
@@ -78,7 +79,7 @@ class AskService {
 				id: id
 			},
 			{
-				response: response
+				response: SanitizerService.sanitize(response)
 			}
 		);
 
