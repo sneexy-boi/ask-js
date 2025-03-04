@@ -18,5 +18,8 @@ export class User {
 	prompt: string;
 
 	@Column({ default: false })
+	approved: boolean;
+
+	@Column({ default: false })
 	admin: boolean;
 }

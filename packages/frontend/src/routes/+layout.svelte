@@ -39,7 +39,7 @@
 
 							<Avatar user={selfParsed} />
 
-							<a class="btn nav danger" href={"/logout"}>
+							<a class="btn nav nobg danger" href={"/logout"}>
 								<IconLogout size="18px" />
 							</a>
 						</div>

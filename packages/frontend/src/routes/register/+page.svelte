@@ -10,6 +10,7 @@
 
 	let okay = $state(false)
 	let error = $state("")
+	let success = $state("")
 
 	let username = $state("")
 	let password = $state("")
@@ -29,6 +30,8 @@
 				goto("/").then(() => {
 					location.reload()
 				})
+			} else {
+				success = e.message ?? "No token returned, but no error occurred. Contact an admin.";
 			}
 		}).catch((err) => {
 			error = err?.message ?? "Something went wrong"
@@ -53,6 +56,11 @@
 			{#if error.length > 0}
 				<div class="error mb">
 					<p>{error}</p>
+				</div>
+			{/if}
+			{#if success.length > 0}
+				<div class="success mb">
+					<p>{success}</p>
 				</div>
 			{/if}
 

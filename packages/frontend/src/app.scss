@@ -23,6 +23,9 @@
 
 	--danger-1: #e65448;
 	--danger-1-50: #e6544850;
+
+	--success-1: #38b84d;
+	--success-1-50: #38b84d50;
 }
 
 body {
@@ -153,6 +156,11 @@ small {
 	&.centered {
 		justify-content: center;
 	}
+
+	&.nobg {
+		padding: 0 8px;
+		background: transparent;
+	}
 }
 
 label {
@@ -216,10 +224,8 @@ label {
 	padding: 8px 12px;
 }
 
-.error {
+.error,.success {
 	padding: 8px 10px;
-	color: var(--danger-1);
-	background: var(--danger-1-50);
 	border-radius: 6px;
 	width: 100%;
 	box-sizing: border-box;
@@ -227,6 +233,16 @@ label {
 	&.mb {
 		margin-bottom: 10px;
 	}
+}
+
+.error {
+	color: var(--danger-1);
+	background: var(--danger-1-50);
+}
+
+.success {
+	color: var(--success-1);
+	background: var(--success-1-50);
 }
 
 .form {

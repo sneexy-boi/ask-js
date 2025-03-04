@@ -18,6 +18,16 @@ class AuthService {
 				message: 'Token invalid'
 			};
 
+		const user = await UserService.get({
+			id: auth.user
+		});
+
+		if (!user.approved)
+			return {
+				error: true,
+				message: 'Account not enabled'
+			};
+
 		return {
 			error: false,
 			message: 'Authenticated',
@@ -79,6 +89,8 @@ class AuthService {
 			username: username
 		};
 
+		if (config.registrations !== 'approval') user['approved'] = true;
+
 		const salt = bcrypt.genSaltSync(10);
 		const hash = bcrypt.hashSync(password, salt);
 
@@ -115,13 +127,22 @@ class AuthService {
 
 		const auth = await this.generateToken(id);
 
-		return {
-			error: false,
-			status: 200,
-			message: 'User created',
-			user: await UserService.get({ id: id }),
-			token: auth.token
-		};
+		if (config.registrations === 'approval') {
+			return {
+				error: false,
+				status: 200,
+				message: 'Awaiting approval from administrator',
+				user: await UserService.get({ id: id })
+			};
+		} else {
+			return {
+				error: false,
+				status: 200,
+				message: 'User created',
+				user: await UserService.get({ id: id }),
+				token: auth.token
+			};
+		}
 	}
 
 	public async loginUser(username: string, password: string) {
@@ -134,6 +155,9 @@ class AuthService {
 
 		if (!userPrivate)
 			return { error: true, status: 404, message: 'User not found' };
+
+		if (!user.approved)
+			return { error: true, status: 400, message: 'User not enabled' };
 
 		const doesPasswordMatch = bcrypt.compareSync(
 			password,
