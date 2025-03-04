@@ -1,5 +1,7 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
+import AskService from '../../../../services/AskService.js';
+import UserService from '../../../../services/UserService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -18,10 +20,34 @@ export default plugin(async (fastify) => {
 	}>(
 		'/api/v1/ask/:id',
 		{
-			schema: schema
+			schema: schema,
+			preHandler: fastify.auth([fastify.requireAuth])
 		},
 		async (req, reply) => {
-			return reply.status(501).send();
+			const ask = await AskService.get({ id: req.params.id });
+
+			if (!ask)
+				return reply.status(404).send({
+					message: 'Ask not found'
+				});
+
+			const requestingUser = await UserService.get({
+				id: req.auth.user
+			});
+
+			if (
+				ask.to !== req.auth.user ||
+				(requestingUser && !requestingUser.admin)
+			)
+				return reply.status(404).send({
+					message: 'Ask not found'
+				});
+
+			return await AskService.delete({ id: req.params.id }).then(() => {
+				return reply.status(200).send({
+					message: 'Deleted ask'
+				});
+			});
 		}
 	);
 });

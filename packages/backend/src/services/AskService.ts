@@ -64,6 +64,10 @@ class AskService {
 		};
 	}
 
+	public async delete(where: ObjectLiteral) {
+		return await db.getRepository('ask').delete(where);
+	}
+
 	public async respond(id: string, response: string) {
 		const ask = await this.get({ id: id });
 
