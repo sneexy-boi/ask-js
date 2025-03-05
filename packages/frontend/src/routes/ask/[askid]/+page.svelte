@@ -5,6 +5,8 @@
 	import AskAndResponse from '$lib/components/AskAndResponse.svelte';
 	import getUser from '$lib/api/getUser.js';
 	import Avatar from '$lib/components/Avatar.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let props = $props();
 	console.log(props.data);
@@ -23,9 +25,14 @@
 </script>
 
 {#if $query.isLoading}
-	<p>Loading ask</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading ask</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="to">
 		{#if $toQuery.isLoading}

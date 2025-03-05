@@ -18,6 +18,8 @@
 	import unapproveUser from '$lib/api/disableUser.js';
 	import enableUser from '$lib/api/enableUser.js';
 	import disableUser from '$lib/api/disableUser.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let selecting = $state(false)
 	let selection = $state([])
@@ -128,9 +130,14 @@
 {/snippet}
 
 {#if $query.isLoading}
-	<p>Loading inbox asks</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading inbox asks</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="tl">
 		{#each $query.data as data}

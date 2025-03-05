@@ -2,6 +2,8 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import getUserTimeline from '$lib/api/getUserTimeline.js';
 	import AskAndResponse from '$lib/components/AskAndResponse.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let { userId } = $props()
 
@@ -13,9 +15,14 @@
 </script>
 
 {#if $query.isLoading}
-	<p>Loading asks</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading asks</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="tl">
 		{#each $query.data as data}

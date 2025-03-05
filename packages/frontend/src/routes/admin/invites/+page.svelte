@@ -5,6 +5,8 @@
 	import getInvites from '$lib/api/getInvites.js';
 	import AskAndResponse from '$lib/components/AskAndResponse.svelte';
 	import deleteInvite from '$lib/api/deleteInvite.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let query = createInfiniteQuery({
 		queryKey: ["admin_invites"],
@@ -42,9 +44,14 @@
 </div>
 
 {#if $query.isLoading}
-	<p>Loading invites</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading invites</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="tl">
 		{#each $query.data.pages as results}

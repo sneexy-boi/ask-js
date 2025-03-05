@@ -6,6 +6,8 @@
 	import Avatar from '$lib/components/Avatar.svelte';
 	import { IconPencil } from '@tabler/icons-svelte';
 	import localStore from '$lib/localStore.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let props = $props();
 	console.log(props.data);
@@ -25,9 +27,14 @@
 </script>
 
 {#if $query.isLoading}
-	<p>Loading @{props.data.username}</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading @{props.data.username}</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div>
 		<div class="prompt">

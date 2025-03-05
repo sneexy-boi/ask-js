@@ -4,6 +4,8 @@
 	import lookupUser from '$lib/api/lookupUser.js';
 	import Https from '$lib/https.js';
 	import queryClient from '$lib/queryClient.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let username = $state(page.params?.username ?? "");
 
@@ -40,9 +42,14 @@
 </script>
 
 {#if $query.isLoading}
-	<p>Loading @{username}</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading @{username}</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="form">
 		<div class="inner wide">

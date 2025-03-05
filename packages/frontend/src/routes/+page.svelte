@@ -3,6 +3,8 @@
 	import lookupUser from '$lib/api/lookupUser.js';
 	import getAllUsers from '$lib/api/getAllUsers.js';
 	import Avatar from '$lib/components/Avatar.svelte';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	const query = createQuery({
 		queryKey: ['userlist'],
@@ -14,9 +16,14 @@
 <h2>User directory</h2>
 
 {#if $query.isLoading}
-	<p>Loading user list</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading user list</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="tl directory">
 		{#each $query.data as user}

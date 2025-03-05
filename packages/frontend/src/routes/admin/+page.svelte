@@ -1,6 +1,8 @@
 <script>
 	import { createQuery } from '@tanstack/svelte-query';
 	import getMeta from '$lib/api/getMeta.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	const query = createQuery({
 		queryKey: ['meta'],
@@ -16,9 +18,14 @@
 </div>
 
 {#if $query.isLoading}
-	<p>Loading dashboard</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading dashboard</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="dash">
 		<p><b>{$query.data?.stats?.users ?? 0}</b> users</p>

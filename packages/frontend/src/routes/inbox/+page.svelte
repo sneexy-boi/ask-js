@@ -3,6 +3,8 @@
 	import getMyTimeline from '$lib/api/getMyTimeline.js';
 	import AskAndResponse from '$lib/components/AskAndResponse.svelte';
 	import localStore from '$lib/localStore.js';
+	import Loading from '$lib/components/Loading.svelte';
+	import Error from '$lib/components/Error.svelte';
 
 	let selfRaw = localStore.get("self");
 	let selfParsed = undefined;
@@ -19,9 +21,14 @@
 </script>
 
 {#if $query.isLoading}
-	<p>Loading inbox asks</p>
+	<Loading />
 {:else if $query.isError}
-	<p>Error loading inbox asks</p>
+	<Error
+		status={$query.error.status}
+		message={$query.error.message}
+		server={Boolean($query.error.status)}
+		retry={() => $query.refetch()}
+	/>
 {:else if $query.isSuccess}
 	<div class="tl">
 		{#each $query.data as data}
