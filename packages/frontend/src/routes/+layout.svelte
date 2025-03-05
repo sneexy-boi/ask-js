@@ -5,6 +5,7 @@
 	import localStore from '$lib/localStore.js';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import { IconDashboard, IconInbox, IconLogout } from '@tabler/icons-svelte';
+	import Tab from '$lib/components/Tab.svelte';
 
 	let selfRaw = localStore.get("self");
 	let selfParsed = undefined;
@@ -26,16 +27,20 @@
 				<div class="right">
 					{#if selfParsed}
 						<div class="btnCtn wideGap">
-							{#if selfParsed.admin}
-								<a class="btn nav" href={"/admin"}>
-									<IconDashboard size="18px" />
-									Admin
-								</a>
-							{/if}
-							<a class="btn nav" href="/inbox">
-								<IconInbox size="18px" />
-								Inbox
-							</a>
+							<div class="btnCtn noGap">
+								{#key page.url.pathname}
+									{#if selfParsed.admin}
+										<Tab href={"/admin"} selected={page.url.pathname.startsWith('/admin')}>
+											<IconDashboard size="18px" />
+											Admin
+										</Tab>
+									{/if}
+									<Tab href={"/inbox"} selected={page.url.pathname === '/inbox'}>
+										<IconInbox size="18px" />
+										Inbox
+									</Tab>
+								{/key}
+							</div>
 
 							<Avatar user={selfParsed} />
 

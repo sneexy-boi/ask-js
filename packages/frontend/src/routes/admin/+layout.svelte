@@ -1,16 +1,30 @@
-<div class="btnCtn">
-	<a class="btn" href="/admin">
-		Dashboard
-	</a>
-	<a class="btn" href="/admin/settings">
-		Settings
-	</a>
-	<a class="btn" href="/admin/invites">
-		Invites
-	</a>
-	<a class="btn" href="/admin/users">
-		Users
-	</a>
+<script>
+import { page } from '$app/state';
+import Tab from '$lib/components/Tab.svelte';
+import { IconDashboard, IconMail, IconSettings, IconUsers } from '@tabler/icons-svelte';
+</script>
+
+<div class="adminTabs">
+	<div class="btnCtn noGap">
+		{#key page.url.pathname}
+			<Tab short href={"/admin"} selected={page.url.pathname === '/admin'}>
+				<IconDashboard size="18px" />
+				Dashboard
+			</Tab>
+			<Tab short href={"/admin/settings"} selected={page.url.pathname === '/admin/settings'}>
+				<IconSettings size="18px" />
+				Settings
+			</Tab>
+			<Tab short href={"/admin/invites"} selected={page.url.pathname === '/admin/invites'}>
+				<IconMail size="18px" />
+				Invites
+			</Tab>
+			<Tab short href={"/admin/users"} selected={page.url.pathname === '/admin/users'}>
+				<IconUsers size="18px" />
+				Users
+			</Tab>
+		{/key}
+	</div>
 </div>
 
 <div class="adminCtn">
@@ -18,6 +32,12 @@
 </div>
 
 <style lang="scss" scoped>
+	.adminTabs {
+		display: flex;
+		border-radius: 6px;
+		background: var(--bg-2-50);
+	}
+
 	.adminCtn {
 		margin-top: 10px;
 	}

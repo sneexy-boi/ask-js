@@ -14,6 +14,10 @@
 
 <style lang="scss" scoped>
 	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
 		cursor: pointer;
 		text-decoration: none;
 
