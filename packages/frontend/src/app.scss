@@ -36,6 +36,15 @@ body {
 	overflow-x: hidden;
 
 	font-family: system-ui;
+
+	@media (max-width: 480px) {
+		.btn.tab {
+			&.collapsable {
+				gap: 0;
+				font-size: 0;
+			}
+		}
+	}
 }
 
 h1,

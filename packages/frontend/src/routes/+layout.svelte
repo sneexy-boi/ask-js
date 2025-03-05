@@ -30,12 +30,12 @@
 							<div class="btnCtn noGap">
 								{#key page.url.pathname}
 									{#if selfParsed.admin}
-										<Tab href={"/admin"} selected={page.url.pathname.startsWith('/admin')}>
+										<Tab collapsable href={"/admin"} selected={page.url.pathname.startsWith('/admin')}>
 											<IconDashboard size="18px" />
 											Admin
 										</Tab>
 									{/if}
-									<Tab href={"/inbox"} selected={page.url.pathname === '/inbox'}>
+									<Tab collapsable href={"/inbox"} selected={page.url.pathname === '/inbox'}>
 										<IconInbox size="18px" />
 										Inbox
 									</Tab>

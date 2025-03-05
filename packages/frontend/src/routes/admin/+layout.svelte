@@ -34,8 +34,9 @@ import { IconDashboard, IconMail, IconSettings, IconUsers } from '@tabler/icons-
 <style lang="scss" scoped>
 	.adminTabs {
 		display: flex;
+
 		border-radius: 6px;
-		background: var(--bg-2-50);
+		margin-top: -10px;
 	}
 
 	.adminCtn {
