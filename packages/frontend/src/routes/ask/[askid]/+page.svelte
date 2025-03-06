@@ -24,6 +24,15 @@
 	});
 </script>
 
+<svelte:head>
+	{#if $query.isSuccess}
+		{#if $toQuery.isSuccess}
+			<title>"{$query.data.content.substring(0, 18)}{$query.data.content.length > 18 ? '...': ''}" - {($query.data?.nickname || $query.data.nickname?.length > 0) ? $query.data
+				?.nickname : "Anonymous"} | AskJS</title>
+		{/if}
+	{/if}
+</svelte:head>
+
 {#if $query.isLoading}
 	<Loading />
 {:else if $query.isError}

@@ -5,7 +5,7 @@ import { IconDashboard, IconMail, IconSettings, IconUsers } from '@tabler/icons-
 </script>
 
 <div class="adminTabs">
-	<div class="btnCtn noGap">
+	<div class="btnCtn noGap wrap">
 		{#key page.url.pathname}
 			<Tab short href={"/admin"} selected={page.url.pathname === '/admin'}>
 				<IconDashboard size="18px" />

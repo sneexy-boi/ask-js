@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { IconReload } from '@tabler/icons-svelte';
-
 	let { status = 0, message = '', server = false, retry } = $props();
 </script>
 
