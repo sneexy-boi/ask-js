@@ -11,7 +11,7 @@ class UserService {
 			.getRepository('user')
 			.createQueryBuilder('user')
 			.where(where)
-			.orderBy(order, 'DESC')
+			.orderBy(order, 'ASC')
 			.take(take ?? 45)
 			.getMany();
 	}
