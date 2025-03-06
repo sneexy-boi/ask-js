@@ -51,7 +51,7 @@
 		<h2>Inbox</h2>
 		{#each $query.data.pages as results}
 			{#each results as object}
-				<AskAndResponse data={object} />
+				<AskAndResponse data={object} onResponsePage />
 			{/each}
 		{/each}
 
