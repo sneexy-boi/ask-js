@@ -31,6 +31,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Login</title>
+</svelte:head>
+
 <div class="form centered">
 	<div class="inner">
 		{#if !okay}

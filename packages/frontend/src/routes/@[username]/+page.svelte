@@ -26,6 +26,12 @@
 	} catch { }
 </script>
 
+<svelte:head>
+	{#if $query.isSuccess}
+		<title>{$query.data.displayName ?? $query.data.username} (@{$query.data.username})</title>
+	{/if}
+</svelte:head>
+
 {#if $query.isLoading}
 	<Loading />
 {:else if $query.isError}

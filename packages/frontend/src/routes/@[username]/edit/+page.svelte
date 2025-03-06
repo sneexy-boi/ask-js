@@ -41,6 +41,12 @@
 	}
 </script>
 
+<svelte:head>
+	{#if $query.isSuccess}
+		<title>Editing @{$query.data.username}'s profile</title>
+	{/if}
+</svelte:head>
+
 {#if $query.isLoading}
 	<Loading />
 {:else if $query.isError}

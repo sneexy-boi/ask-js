@@ -10,4 +10,8 @@
 	})
 </script>
 
+<svelte:head>
+	<title>Logging out...</title>
+</svelte:head>
+
 <p>Logged out, redirecting...</p>

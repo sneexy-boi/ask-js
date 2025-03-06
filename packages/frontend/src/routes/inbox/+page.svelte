@@ -37,6 +37,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Inbox</title>
+</svelte:head>
+
 {#if $query.isLoading}
 	<Loading />
 {:else if $query.isError}

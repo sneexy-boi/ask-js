@@ -13,6 +13,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title></title>
+</svelte:head>
+
 <h2>User directory</h2>
 
 {#if $query.isLoading}

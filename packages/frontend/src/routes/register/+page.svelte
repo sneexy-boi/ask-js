@@ -45,6 +45,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Register</title>
+</svelte:head>
+
 {#if $metaQuery.isLoading}
 	<p>Loading instance information</p>
 {:else if $metaQuery.isError}
