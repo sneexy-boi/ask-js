@@ -1,11 +1,6 @@
 <script>
 	import {
-		blur,
-		crossfade,
-		draw,
-		fade,
 		fly,
-		scale,
 		slide
 	} from 'svelte/transition';
 

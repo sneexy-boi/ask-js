@@ -43,13 +43,17 @@
 
 	function enableUsers() {
 		for (const item of selection) {
-			enableUser(item);
+			enableUser(item).then(() => {
+				if (selection.indexOf(item) === selection.length) $query.refetch()
+			});
 		}
 	}
 
 	function disableUsers() {
 		for (const item of selection) {
-			disableUser(item);
+			disableUser(item).then(() => {
+				if (selection.indexOf(item) === selection.length) $query.refetch()
+			});
 		}
 	}
 </script>

@@ -348,6 +348,10 @@ label {
 
 	margin-bottom: 10px;
 	box-sizing: border-box;
+
+	h2 {
+		margin-bottom: 5px;
+	}
 }
 
 .adminHeader {
@@ -370,4 +374,11 @@ label {
 		flex-grow: 1;
 		gap: 5px;
 	}
+}
+
+.nomore {
+	width: 100%;
+	margin: 16px;
+	text-align: center;
+	color: var(--tx-3);
 }

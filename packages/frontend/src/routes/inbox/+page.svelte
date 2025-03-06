@@ -1,10 +1,11 @@
 <script>
-	import { createQuery } from '@tanstack/svelte-query';
+	import { createInfiniteQuery, createQuery } from '@tanstack/svelte-query';
 	import getMyTimeline from '$lib/api/getMyTimeline.js';
 	import AskAndResponse from '$lib/components/AskAndResponse.svelte';
 	import localStore from '$lib/localStore.js';
 	import Loading from '$lib/components/Loading.svelte';
 	import Error from '$lib/components/Error.svelte';
+	import getUserTimeline from '$lib/api/getUserTimeline.js';
 
 	let selfRaw = localStore.get("self");
 	let selfParsed = undefined;
@@ -13,11 +14,27 @@
 		selfParsed = JSON.parse(selfRaw);
 	} catch { }
 
-	const query = createQuery({
+	const query = createInfiniteQuery({
 		queryKey: ['user_inbox'],
 		retry: false,
-		queryFn: async () => await getMyTimeline(selfParsed ? selfParsed?.id : "")
+		queryFn: async ({ pageParam }) => await getMyTimeline(selfParsed?.id, pageParam),
+		initialPageParam: undefined,
+		getNextPageParam: (lastPage) => {
+			console.log(
+				'[user_inbox] lastTlObj',
+				lastPage?.at(-1).createdAt
+			);
+			return lastPage ? lastPage.at(-1).createdAt : undefined;
+		}
 	});
+
+	function infiniteLoading(e) {
+		const observer = new IntersectionObserver(async (entries) => {
+			if (entries[0].isIntersecting) $query.fetchNextPage();
+		});
+
+		observer.observe(e);
+	}
 </script>
 
 {#if $query.isLoading}
@@ -31,8 +48,20 @@
 	/>
 {:else if $query.isSuccess}
 	<div class="tl">
-		{#each $query.data as data}
-			<AskAndResponse {data} onResponsePage={true} />
+		<h2>Inbox</h2>
+		{#each $query.data.pages as results}
+			{#each results as object}
+				<AskAndResponse data={object} />
+			{/each}
 		{/each}
+
+		<div class="fetchMore">
+			<div use:infiniteLoading></div>
+			{#if $query.hasNextPage}
+				<Loading size="var(--fs-lg)" massive={false} />
+			{:else}
+				<p class="nomore">No more</p>
+			{/if}
+		</div>
 	</div>
 {/if}
