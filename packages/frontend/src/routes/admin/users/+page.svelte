@@ -44,7 +44,7 @@
 	function enableUsers() {
 		for (const item of selection) {
 			enableUser(item).then(() => {
-				if (selection.indexOf(item) === selection.length) $query.refetch()
+				if (selection.indexOf(item) === (selection.length - 1)) $query.refetch()
 			});
 		}
 	}
@@ -52,7 +52,7 @@
 	function disableUsers() {
 		for (const item of selection) {
 			disableUser(item).then(() => {
-				if (selection.indexOf(item) === selection.length) $query.refetch()
+				if (selection.indexOf(item) === (selection.length - 1)) $query.refetch()
 			});
 		}
 	}
