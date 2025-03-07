@@ -6,3 +6,5 @@ built
 build
 config/config.json
 .svelte-kit
+cosign.key
+cosign.private
