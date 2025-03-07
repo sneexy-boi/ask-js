@@ -1,10 +1,10 @@
 FROM node:23-slim
 
-WORKDIR /askjs
+WORKDIR /ask-js
 COPY . .
 
 RUN npm install -g pnpm@latest-10 && \
         pnpm i && pnpm build && \
-        chmod +x /askjs/docker-start.sh
+        chmod +x /ask-js/scripts/docker-start.sh
 
-CMD ["/askjs/docker-start.sh"]
+CMD ["/ask-js/scripts/docker-start.sh"]
