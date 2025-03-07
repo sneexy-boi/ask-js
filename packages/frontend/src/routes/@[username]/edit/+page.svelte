@@ -57,6 +57,7 @@
 		retry={() => $query.refetch()}
 	/>
 {:else if $query.isSuccess}
+	{#if $query.data}
 	<div class="form">
 		<div class="inner wide">
 			<p class="title">Editing @{$query.data.username}'s profile</p>
@@ -79,6 +80,7 @@
 			<button class={"btn"} onclick={() => submit()}>Submit</button>
 		</div>
 	</div>
+		{/if}
 {/if}
 
 <style lang="scss" global>
