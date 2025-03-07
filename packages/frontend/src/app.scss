@@ -355,6 +355,16 @@ label {
 			max-width: 100%;
 		}
 
+		&.oneLine {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+		}
+
+		&.wideGap {
+			gap: 10px;
+		}
+
 		.title {
 			font-size: 16px;
 			font-weight: 600;

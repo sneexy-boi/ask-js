@@ -1,12 +1,11 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
 import { In, IsNull, LessThan, Not } from 'typeorm';
-import TimelineService from '../../../../services/TimelineService.js';
-import AskBuilder from '../../../../services/builders/AskBuilder.js';
+import TimelineService from '../../../../../services/TimelineService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
-		tags: ['Timeline'],
+		tags: ['Ask'],
 		params: {
 			type: 'object',
 			properties: {
@@ -27,23 +26,14 @@ export default plugin(async (fastify) => {
 		Params: FromSchema<typeof schema.params>;
 		Querystring: FromSchema<typeof schema.querystring>;
 	}>(
-		'/api/v1/timeline/:id',
+		'/api/v1/ask/:id/comments',
 		{
-			schema: schema,
-			preHandler: fastify.auth([fastify.optionalAuth])
+			schema: schema
 		},
 		async (req, reply) => {
 			let where = {
-				to: req.params.id
+				commentingOnId: req.params.id
 			};
-
-			console.log(req.auth?.user, req.params.id);
-			if (req.auth?.user === req.params.id) {
-				where['visibility'] = In(['public', 'private']);
-			} else {
-				where['visibility'] = 'public';
-				where['response'] = Not(IsNull());
-			}
 
 			let take;
 
@@ -53,15 +43,12 @@ export default plugin(async (fastify) => {
 			console.log(where);
 
 			return await TimelineService.get(
-				'ask',
+				'comment',
 				where,
-				'ask.createdAt',
+				'comment.createdAt',
 				take
-			).then(async (e) => {
-				if (e && e.length > 0)
-					return reply
-						.status(200)
-						.send(await AskBuilder.buildMany(e));
+			).then((e) => {
+				if (e && e.length > 0) return reply.status(200).send(e);
 				return reply.status(204).send();
 			});
 		}

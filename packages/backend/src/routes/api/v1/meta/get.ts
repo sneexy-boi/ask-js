@@ -22,6 +22,7 @@ export default plugin(async (fastify) => {
 					response: Not(IsNull())
 				}
 			});
+			let commentCount = await db.getRepository('comment').count();
 
 			return reply.status(200).send({
 				version: pkg.version,
@@ -29,6 +30,7 @@ export default plugin(async (fastify) => {
 				stats: {
 					asks: askCount,
 					responses: responseCount,
+					comments: commentCount,
 					users: userCount
 				}
 			});

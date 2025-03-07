@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/state';
 	import Https from '$lib/https.js';
-	import { IconCopy, IconLock, IconTrash, IconWorld } from '@tabler/icons-svelte';
+	import { IconArrowBackUp, IconCopy, IconLock, IconStar, IconTrash, IconWorld } from '@tabler/icons-svelte';
 
-	let { data, onResponsePage = false } = $props()
+	let { data, onResponsePage = false, detailed = false } = $props()
 
 	let response = $state("")
 	let submittedResponse = $state(false)
@@ -65,6 +65,13 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 				</button>
 			</div>
 		</div>
+	{:else if !detailed}
+		<div class="btnCtn padded">
+			<a class="btn tertiary" href={"/ask/"+data.id+"#comment"}>
+				<IconArrowBackUp size="18px" />
+				View Comments ({data.commentCount})
+			</a>
+		</div>
 	{/if}
 {/snippet}
 
@@ -113,6 +120,11 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 
 	p {
 		margin: 0;
+	}
+
+	.footer {
+		padding: 10px;
+		background: var(--bg-3-75);
 	}
 
 	.question, .response {

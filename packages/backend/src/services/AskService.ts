@@ -6,7 +6,11 @@ import SanitizerService from './SanitizerService.js';
 
 class AskService {
 	public async get(where: ObjectLiteral) {
-		return await db.getRepository('ask').findOne({ where: where });
+		return await db
+			.getRepository('ask')
+			.createQueryBuilder('ask')
+			.where(where)
+			.getOne();
 	}
 
 	public async getMany(where: ObjectLiteral, order?: string, take?: number) {
