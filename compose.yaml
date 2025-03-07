@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     container_name: ask-js_web
     restart: always
-    networks:
-      - ask-js
     ports:
       - '3579:3579'
     depends_on:
@@ -18,14 +16,9 @@ services:
     image: postgres:17-alpine
     container_name: ask-js_db
     shm_size: 256MB
-    networks:
-      - ask-js
     environment:
       - POSTGRES_DB=askjs
       - POSTGRES_USER=askjs
       - POSTGRES_PASSWORD=askjs
     volumes:
       - ./db:/var/lib/postgresql/data
-
-networks:
-  ask-js:
