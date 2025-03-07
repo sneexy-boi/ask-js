@@ -2,6 +2,7 @@ import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
 import { In, IsNull, LessThan, Not } from 'typeorm';
 import TimelineService from '../../../../services/TimelineService.js';
+import AskBuilder from '../../../../services/builders/AskBuilder.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -56,8 +57,11 @@ export default plugin(async (fastify) => {
 				where,
 				'ask.createdAt',
 				take
-			).then((e) => {
-				if (e && e.length > 0) return reply.status(200).send(e);
+			).then(async (e) => {
+				if (e && e.length > 0)
+					return reply
+						.status(200)
+						.send(await AskBuilder.buildMany(e));
 				return reply.status(204).send();
 			});
 		}

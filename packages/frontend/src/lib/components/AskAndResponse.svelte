@@ -69,7 +69,7 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		<div class="btnCtn padded">
 			<a class="btn tertiary" href={"/ask/"+data.id+"#reply"}>
 				<IconArrowBackUp size="18px" />
-				Reply
+				View Replies ({data.replyCount})
 			</a>
 		</div>
 	{/if}
