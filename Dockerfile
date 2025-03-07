@@ -4,7 +4,6 @@ WORKDIR /ask-js
 COPY . .
 
 RUN npm install -g pnpm@latest-10 && \
-        pnpm i && pnpm build && \
-        chmod +x /ask-js/scripts/docker-start.sh
+        pnpm i && pnpm build
 
-CMD ["/ask-js/scripts/docker-start.sh"]
+CMD ["/bin/bash", "-c", "pnpm migration:apply && pnpm start"]
