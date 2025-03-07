@@ -13,22 +13,25 @@
 	console.log(props.data);
 
 	const query = createQuery({
-		queryKey: ['user_'+props.data.username],
+		queryKey: ['user_' + props.data.username],
 		retry: false,
 		queryFn: async () => await lookupUser(props.data.username)
 	});
 
-	let selfRaw = localStore.get("self");
+	let selfRaw = localStore.get('self');
 	let selfParsed = undefined;
 
 	try {
 		selfParsed = JSON.parse(selfRaw);
-	} catch { }
+	} catch {}
 </script>
 
 <svelte:head>
 	{#if $query.isSuccess}
-		<title>{$query.data.displayName ?? $query.data.username} (@{$query.data.username})</title>
+		<title
+			>{$query.data.displayName ?? $query.data.username} (@{$query.data
+				.username})</title
+		>
 	{/if}
 </svelte:head>
 
@@ -49,14 +52,21 @@
 			</div>
 			<div class="right">
 				<div class="inner">
-					<p>"{#if $query.data?.prompt}{$query.data?.prompt}{:else}<i>No prompt</i>{/if}"</p>
-					<i class="username">- {$query.data?.displayName ?? "@"+$query.data.username}</i>
+					<p>
+						"{#if $query.data?.prompt}{$query.data?.prompt}{:else}<i
+								>No prompt</i
+							>{/if}"
+					</p>
+					<i class="username"
+						>- {$query.data?.displayName ??
+							'@' + $query.data.username}</i
+					>
 				</div>
 			</div>
 			<div class="farRight">
-				{#if selfParsed && (selfParsed.admin || selfParsed.id === $query.data.id )}
-					<a class="btn" href={"/@"+$query.data.username+"/edit"}>
-						<IconPencil	size="18px" /> Edit
+				{#if selfParsed && (selfParsed.admin || selfParsed.id === $query.data.id)}
+					<a class="btn" href={'/@' + $query.data.username + '/edit'}>
+						<IconPencil size="18px" /> Edit
 					</a>
 				{/if}
 			</div>
@@ -78,7 +88,9 @@
 
 		margin-bottom: 20px;
 
-		.left,.right,.farRight {
+		.left,
+		.right,
+		.farRight {
 			display: flex;
 			align-items: flex-start;
 			flex-direction: column;

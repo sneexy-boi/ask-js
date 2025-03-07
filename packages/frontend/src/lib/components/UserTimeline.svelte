@@ -5,14 +5,15 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import Error from '$lib/components/Error.svelte';
 
-	let { userId } = $props()
+	let { userId } = $props();
 
-	let queryKey = 'user_timeline_' + userId
+	let queryKey = 'user_timeline_' + userId;
 
 	const query = createInfiniteQuery({
 		queryKey: [queryKey],
 		retry: false,
-		queryFn: async ({ pageParam }) => await getUserTimeline(userId, pageParam),
+		queryFn: async ({ pageParam }) =>
+			await getUserTimeline(userId, pageParam),
 		initialPageParam: undefined,
 		getNextPageParam: (lastPage) => {
 			console.log(

@@ -27,6 +27,7 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"backend": "^0.0.0"
+		"backend": "^0.0.0",
+		"prettier-plugin-svelte": "^3.3.3"
 	}
 }

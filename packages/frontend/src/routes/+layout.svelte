@@ -7,12 +7,12 @@
 	import { IconDashboard, IconInbox, IconLogout } from '@tabler/icons-svelte';
 	import Tab from '$lib/components/Tab.svelte';
 
-	let selfRaw = localStore.get("self");
+	let selfRaw = localStore.get('self');
 	let selfParsed = undefined;
 
 	try {
 		selfParsed = JSON.parse(selfRaw);
-	} catch { }
+	} catch {}
 </script>
 
 <QueryClientProvider client={queryClient}>
@@ -30,12 +30,23 @@
 							<div class="btnCtn noGap">
 								{#key page.url.pathname}
 									{#if selfParsed.admin}
-										<Tab collapsable href={"/admin"} selected={page.url.pathname.startsWith('/admin')}>
+										<Tab
+											collapsable
+											href={'/admin'}
+											selected={page.url.pathname.startsWith(
+												'/admin'
+											)}
+										>
 											<IconDashboard size="18px" />
 											Admin
 										</Tab>
 									{/if}
-									<Tab collapsable href={"/inbox"} selected={page.url.pathname === '/inbox'}>
+									<Tab
+										collapsable
+										href={'/inbox'}
+										selected={page.url.pathname ===
+											'/inbox'}
+									>
 										<IconInbox size="18px" />
 										Inbox
 									</Tab>
@@ -44,18 +55,14 @@
 
 							<Avatar user={selfParsed} />
 
-							<a class="btn nav nobg danger" href={"/logout"}>
+							<a class="btn nav nobg danger" href={'/logout'}>
 								<IconLogout size="18px" />
 							</a>
 						</div>
 					{:else}
 						<div class="btnCtn">
-							<a class="btn accent" href="/login">
-								Login
-							</a>
-								<a class="btn nav" href="/register">
-									Register
-								</a>
+							<a class="btn accent" href="/login"> Login </a>
+							<a class="btn nav" href="/register"> Register </a>
 						</div>
 					{/if}
 				</div>

@@ -9,7 +9,7 @@
 	import Error from '$lib/components/Error.svelte';
 
 	let query = createInfiniteQuery({
-		queryKey: ["admin_invites"],
+		queryKey: ['admin_invites'],
 		retry: false,
 		queryFn: async ({ pageParam }) => await getInvites(pageParam),
 		initialPageParam: undefined,
@@ -23,11 +23,11 @@
 	});
 
 	function generate() {
-		generateInvite().then(() => $query.refetch())
+		generateInvite().then(() => $query.refetch());
 	}
 
 	function del(id) {
-		deleteInvite(id).then(() => $query.refetch())
+		deleteInvite(id).then(() => $query.refetch());
 	}
 </script>
 
@@ -36,7 +36,7 @@
 		<h2>Invites</h2>
 	</div>
 	<div class="right">
-		<button class="btn nav accent" onclick="{() => generate()}">
+		<button class="btn nav accent" onclick={() => generate()}>
 			<IconPlus size="18px" />
 			Add
 		</button>
@@ -62,12 +62,15 @@
 					</div>
 					<div class="right">
 						{#if data.usedBy}
-							<p title={"Used by "+data.usedBy}>Used</p>
+							<p title={'Used by ' + data.usedBy}>Used</p>
 						{:else}
 							<p>Unused</p>
 						{/if}
 
-						<button class="btn nav danger" onclick="{() => del(data.id)}">
+						<button
+							class="btn nav danger"
+							onclick={() => del(data.id)}
+						>
 							<IconTrash size="18px" />
 							Delete
 						</button>
@@ -77,7 +80,6 @@
 		{/each}
 	</div>
 {/if}
-
 
 <style lang="scss" scoped>
 	.invite {
@@ -89,7 +91,8 @@
 		border-radius: 6px;
 		background: var(--bg-2);
 
-		.left, .right {
+		.left,
+		.right {
 			display: flex;
 			align-items: center;
 		}

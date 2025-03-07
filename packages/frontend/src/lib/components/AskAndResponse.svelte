@@ -1,49 +1,73 @@
 <script>
 	import { page } from '$app/state';
 	import Https from '$lib/https.js';
-	import { IconArrowBackUp, IconCopy, IconLock, IconStar, IconTrash, IconWorld } from '@tabler/icons-svelte';
+	import {
+		IconArrowBackUp,
+		IconCopy,
+		IconLock,
+		IconStar,
+		IconTrash,
+		IconWorld
+	} from '@tabler/icons-svelte';
 
-	let { data, onResponsePage = false, detailed = false } = $props()
+	let { data, onResponsePage = false, detailed = false } = $props();
 
-	let response = $state("")
-	let submittedResponse = $state(false)
-	let deleted = $state(false)
+	let response = $state('');
+	let submittedResponse = $state(false);
+	let deleted = $state(false);
 
 	function copyAsk() {
 		navigator.clipboard.writeText(`> ${data.content}
 
 ${data.response}
 
-${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
+${page.url.protocol + '//' + page.url.host + '/ask/' + data.id}`);
 	}
 
 	async function deleteAsk() {
-		await Https.delete("/api/v1/ask/" + data.id).then(() => {
+		await Https.delete('/api/v1/ask/' + data.id).then(() => {
 			deleted = true;
-		})
+		});
 	}
 
 	async function respond() {
-		await Https.post("/api/v1/ask/" + data.id + "/respond", {
+		await Https.post('/api/v1/ask/' + data.id + '/respond', {
 			response: response
 		}).then(() => {
 			submittedResponse = true;
-		})
+		});
 	}
 </script>
 
 {#snippet inner()}
 	<div class="question">
 		<p>{data.content}</p>
-		<br>
-		<small class="time"><a href={"/ask/"+data.id}>{new Date(data.createdAt).toLocaleDateString()} at {new Date(data.createdAt).toLocaleTimeString()}</a> {#if data.visibility === "private"}<IconLock size="16px" />{:else}<IconWorld size="16px" />{/if}</small>
-		<i class="asker">- {data?.nickname || data?.nickname?.length > 0 ? data?.nickname : 'Anonymous'}</i>
+		<br />
+		<small class="time"
+			><a href={'/ask/' + data.id}
+				>{new Date(data.createdAt).toLocaleDateString()} at {new Date(
+					data.createdAt
+				).toLocaleTimeString()}</a
+			>
+			{#if data.visibility === 'private'}<IconLock
+					size="16px"
+				/>{:else}<IconWorld size="16px" />{/if}</small
+		>
+		<i class="asker"
+			>- {data?.nickname || data?.nickname?.length > 0
+				? data?.nickname
+				: 'Anonymous'}</i
+		>
 	</div>
 	<div class="response">
 		{#if submittedResponse || data.response}
 			<p>{submittedResponse ? response : data.response}</p>
 		{:else if onResponsePage && !submittedResponse}
-			<input class="ipt tertiary" bind:value={response} placeholder="Write your response..." />
+			<input
+				class="ipt tertiary"
+				bind:value={response}
+				placeholder="Write your response..."
+			/>
 		{/if}
 	</div>
 	{#if onResponsePage}
@@ -67,7 +91,7 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		</div>
 	{:else if !detailed}
 		<div class="btnCtn padded">
-			<a class="btn tertiary" href={"/ask/"+data.id+"#comment"}>
+			<a class="btn tertiary" href={'/ask/' + data.id + '#comment'}>
 				<IconArrowBackUp size="18px" />
 				View Comments ({data.commentCount})
 			</a>
@@ -76,16 +100,16 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 {/snippet}
 
 {#if !deleted}
-<div class="ask">
-	{#if data.cw}
-		<details>
-			<summary>{data.cw}</summary>
+	<div class="ask">
+		{#if data.cw}
+			<details>
+				<summary>{data.cw}</summary>
+				{@render inner()}
+			</details>
+		{:else}
 			{@render inner()}
-		</details>
-	{:else}
-		{@render inner()}
-	{/if}
-</div>
+		{/if}
+	</div>
 {/if}
 
 <style lang="scss">
@@ -96,7 +120,7 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		background: var(--bg-2);
 		color: var(--tx-2);
 
-		border-radius: 6px;
+		border-radius: 7px;
 		overflow: clip;
 	}
 
@@ -108,14 +132,13 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 
 	details:first-of-type summary::marker,
 	:is(::-webkit-details-marker) {
-		content: "+ ";
+		content: '+ ';
 		font-weight: 700;
 		// same width
 		font-family: monospace;
-
 	}
 	details[open]:first-of-type summary::marker {
-		content: "- ";
+		content: '- ';
 	}
 
 	p {
@@ -127,7 +150,8 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		background: var(--bg-3-75);
 	}
 
-	.question, .response {
+	.question,
+	.response {
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
