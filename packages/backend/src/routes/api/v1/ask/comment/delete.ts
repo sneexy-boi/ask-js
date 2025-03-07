@@ -2,7 +2,7 @@ import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
 import AskService from '../../../../../services/AskService.js';
 import UserService from '../../../../../services/UserService.js';
-import ReplyService from '../../../../../services/ReplyService.js';
+import ReplyService from '../../../../../services/CommentService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -11,16 +11,16 @@ export default plugin(async (fastify) => {
 			type: 'object',
 			properties: {
 				id: { type: 'string' },
-				replyId: { type: 'string' }
+				commentId: { type: 'string' }
 			},
-			required: ['id', 'replyId']
+			required: ['id', 'commentId']
 		}
 	} as const;
 
 	fastify.delete<{
 		Params: FromSchema<typeof schema.params>;
 	}>(
-		'/api/v1/ask/:id/reply/:replyId',
+		'/api/v1/ask/:id/comment/:commentId',
 		{
 			schema: schema,
 			preHandler: fastify.auth([fastify.requireAuth])
@@ -33,11 +33,13 @@ export default plugin(async (fastify) => {
 					message: 'Ask not found'
 				});
 
-			const askReply = await ReplyService.get({ id: req.params.replyId });
+			const comment = await ReplyService.get({
+				id: req.params.commentId
+			});
 
-			if (!askReply)
+			if (!comment)
 				return reply.status(404).send({
-					message: 'Reply not found'
+					message: 'Comment not found'
 				});
 
 			const requestingUser = await UserService.get({
@@ -47,16 +49,16 @@ export default plugin(async (fastify) => {
 			if (
 				ask.to !== req.auth.user ||
 				(requestingUser && !requestingUser.admin) ||
-				askReply.user.id !== req.auth.user
+				comment.user.id !== req.auth.user
 			)
 				return reply.status(404).send({
-					message: 'Ask or reply not found'
+					message: 'Ask or comment not found'
 				});
 
-			return await ReplyService.delete({ id: req.params.replyId }).then(
+			return await ReplyService.delete({ id: req.params.commentId }).then(
 				() => {
 					return reply.status(200).send({
-						message: 'Deleted reply'
+						message: 'Deleted comment'
 					});
 				}
 			);

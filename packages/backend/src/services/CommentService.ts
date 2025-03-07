@@ -4,31 +4,31 @@ import IdService from './IdService.js';
 import SanitizerService from './SanitizerService.js';
 import AskService from './AskService.js';
 
-class ReplyService {
+class CommentService {
 	public async get(where: ObjectLiteral) {
 		return await db
-			.getRepository('reply')
-			.createQueryBuilder('reply')
-			.leftJoinAndSelect('reply.user', 'user')
+			.getRepository('comment')
+			.createQueryBuilder('comment')
+			.leftJoinAndSelect('comment.user', 'user')
 			.where(where)
 			.getOne();
 	}
 
 	public async getMany(where: ObjectLiteral, order?: string, take?: number) {
 		return await db
-			.getRepository('reply')
-			.createQueryBuilder('reply')
-			.leftJoinAndSelect('reply.user', 'user')
+			.getRepository('comment')
+			.createQueryBuilder('comment')
+			.leftJoinAndSelect('comment.user', 'user')
 			.where(where)
 			.orderBy(order, 'DESC')
 			.take(take ?? 45)
 			.getMany();
 	}
 
-	public async create(as: string, replyingTo: string, content: string) {
-		const replyingToAsk = await AskService.get({ id: replyingTo });
+	public async create(as: string, commentingOn: string, content: string) {
+		const commentingOnAsk = await AskService.get({ id: commentingOn });
 
-		if (!replyingTo)
+		if (!commentingOnAsk)
 			return {
 				error: true,
 				status: 404,
@@ -37,27 +37,27 @@ class ReplyService {
 
 		const id = IdService.generate();
 
-		const reply = {
+		const comment = {
 			id: id,
 			userId: as,
-			replyingToId: replyingTo,
+			commentingOnId: commentingOn,
 			content: SanitizerService.sanitize(content),
 			createdAt: new Date().toISOString()
 		};
 
-		await db.getRepository('reply').insert(reply);
+		await db.getRepository('comment').insert(comment);
 
 		return {
 			error: false,
 			status: 200,
-			message: 'Reply created',
-			reply: await this.get({ id: id })
+			message: 'Comment created',
+			comment: await this.get({ id: id })
 		};
 	}
 
 	public async delete(where: ObjectLiteral) {
-		return await db.getRepository('reply').delete(where);
+		return await db.getRepository('comment').delete(where);
 	}
 }
 
-export default new ReplyService();
+export default new CommentService();

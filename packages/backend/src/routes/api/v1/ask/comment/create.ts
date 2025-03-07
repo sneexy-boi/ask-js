@@ -1,10 +1,9 @@
 import plugin from 'fastify-plugin';
 import { FromSchema } from 'json-schema-to-ts';
 import UserService from '../../../../../services/UserService.js';
-import InviteService from '../../../../../services/InviteService.js';
 import AskService from '../../../../../services/AskService.js';
-import ReplyService from '../../../../../services/ReplyService.js';
 import { IsNull, Not } from 'typeorm';
+import CommentService from '../../../../../services/CommentService.js';
 
 export default plugin(async (fastify) => {
 	const schema = {
@@ -28,7 +27,7 @@ export default plugin(async (fastify) => {
 		Params: FromSchema<typeof schema.params>;
 		Body: FromSchema<typeof schema.body>;
 	}>(
-		'/api/v1/ask/:id/reply',
+		'/api/v1/ask/:id/comment',
 		{
 			schema: schema,
 			preHandler: fastify.auth([fastify.requireAuth])
@@ -55,7 +54,7 @@ export default plugin(async (fastify) => {
 			return reply
 				.status(200)
 				.send(
-					await ReplyService.create(
+					await CommentService.create(
 						requestingUser.id,
 						ask.id,
 						req.body.content

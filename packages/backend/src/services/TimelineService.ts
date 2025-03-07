@@ -2,8 +2,7 @@ import { ObjectLiteral } from 'typeorm';
 import AskService from './AskService.js';
 import InviteService from './InviteService.js';
 import UserService from './UserService.js';
-import ReplyService from './ReplyService.js';
-import AskBuilder from './builders/AskBuilder.js';
+import CommentService from './CommentService.js';
 
 class TimelineService {
 	public async get(
@@ -16,8 +15,8 @@ class TimelineService {
 
 		if (type === 'ask')
 			timelineObjects = await AskService.getMany(where, order, take);
-		if (type === 'reply')
-			timelineObjects = await ReplyService.getMany(where, order, take);
+		if (type === 'comment')
+			timelineObjects = await CommentService.getMany(where, order, take);
 		if (type === 'invite')
 			timelineObjects = await InviteService.getMany(where, order, take);
 		if (type === 'user')

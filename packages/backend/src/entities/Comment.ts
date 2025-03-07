@@ -9,7 +9,7 @@ import { Ask } from './Ask.js';
 import { User } from './User.js';
 
 @Entity()
-export class Reply {
+export class Comment {
 	@PrimaryColumn()
 	id: string;
 
@@ -23,13 +23,13 @@ export class Reply {
 	user: typeorm.Relation<User>;
 
 	@Column({ select: false })
-	replyingToId: string;
+	commentingOnId: string;
 
 	@ManyToOne(() => Ask, (ask) => ask, {
 		onDelete: 'CASCADE'
 	})
-	@JoinColumn({ name: 'replyingToId' })
-	replyingTo: typeorm.Relation<Ask>;
+	@JoinColumn({ name: 'commentingOnId' })
+	commentingOn: typeorm.Relation<Ask>;
 
 	@Column()
 	content: string;

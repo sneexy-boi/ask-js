@@ -3,9 +3,9 @@ import db from '../../utils/db.js';
 
 class AskBuilder {
 	public async build(object: ObjectLiteral) {
-		object['replyCount'] = await db.getRepository('reply').count({
+		object['commentCount'] = await db.getRepository('comment').count({
 			where: {
-				replyingToId: object.id
+				commentingOnId: object.id
 			}
 		});
 

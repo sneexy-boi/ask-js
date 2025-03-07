@@ -26,13 +26,13 @@ export default plugin(async (fastify) => {
 		Params: FromSchema<typeof schema.params>;
 		Querystring: FromSchema<typeof schema.querystring>;
 	}>(
-		'/api/v1/ask/:id/replies',
+		'/api/v1/ask/:id/comments',
 		{
 			schema: schema
 		},
 		async (req, reply) => {
 			let where = {
-				replyingToId: req.params.id
+				commentingOnId: req.params.id
 			};
 
 			let take;
@@ -43,9 +43,9 @@ export default plugin(async (fastify) => {
 			console.log(where);
 
 			return await TimelineService.get(
-				'reply',
+				'comment',
 				where,
-				'reply.createdAt',
+				'comment.createdAt',
 				take
 			).then((e) => {
 				if (e && e.length > 0) return reply.status(200).send(e);

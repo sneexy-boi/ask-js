@@ -8,11 +8,11 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import Error from '$lib/components/Error.svelte';
 	import getInvites from '$lib/api/getInvites.js';
-	import getAskReplies from '$lib/api/getAskReplies.js';
+	import getAskComments from '$lib/api/getAskComments.js';
 	import sendAsk from '$lib/api/sendAsk.js';
-	import sendAskReply from '$lib/api/sendAskReply.js';
+	import sendAskComment from '$lib/api/sendAskComment.js';
 	import { IconTrash } from '@tabler/icons-svelte';
-	import deleteAskReply from '$lib/api/deleteAskReply.js';
+	import deleteAskComment from '$lib/api/deleteAskComment.js';
 	import localStore from '$lib/localStore.js';
 
 	let props = $props();
@@ -25,7 +25,7 @@
 		selfParsed = JSON.parse(selfRaw);
 	} catch { }
 
-	let reply = $state("")
+	let comment = $state("")
 
 	const query = createQuery({
 		queryKey: ['ask_'+props.data.askid],
@@ -39,29 +39,29 @@
 		queryFn: async () => await getUser($query?.data?.to ?? undefined),
 	});
 
-	const replyQuery = createInfiniteQuery({
-		queryKey: ['ask_replies_'+($query?.data?.to ?? undefined)],
+	const commentQuery = createInfiniteQuery({
+		queryKey: ['ask_comments_'+($query?.data?.to ?? undefined)],
 		retry: false,
-		queryFn: async ({ pageParam }) => await getAskReplies(props.data.askid, pageParam),
+		queryFn: async ({ pageParam }) => await getAskComments(props.data.askid, pageParam),
 		initialPageParam: undefined,
 		getNextPageParam: (lastPage) => {
 			console.log(
-				'['+'ask_replies_'+($query?.data?.to ?? undefined)+'] lastTlObj',
+				'['+'ask_comments_'+($query?.data?.to ?? undefined)+'] lastTlObj',
 				lastPage?.at(-1).createdAt
 			);
 			return lastPage ? lastPage.at(-1).createdAt : undefined;
 		}
 	});
 
-	async function submitReply() {
-		await sendAskReply(props.data.askid, reply).then(() => {
-			$replyQuery.refetch()
+	async function submitComment() {
+		await sendAskComment(props.data.askid, comment).then(() => {
+			$commentQuery.refetch()
 		})
 	}
 
-	async function deleteReply(id) {
-		await deleteAskReply(props.data.askid, id).then(() => {
-			$replyQuery.refetch()
+	async function deleteComment(id) {
+		await deleteAskComment(props.data.askid, id).then(() => {
+			$commentQuery.refetch()
 		})
 	}
 </script>
@@ -103,27 +103,27 @@
 
 	<AskAndResponse data={$query.data} detailed />
 
-	<div class="replyBar" id="reply">
+	<div class="commentBar" id="comment">
 		<div class="form">
 			<div class="inner wide wideGap oneLine">
-				<input class="ipt tertiary" placeholder="Write your reply..." bind:value={reply} />
-				<button class={"btn tertiary" + (reply.length > 0 ? " accent" : "")} onclick={() => submitReply()}>Reply</button>
+				<input class="ipt tertiary" placeholder="Write your comment..." bind:value={comment} />
+				<button class={"btn tertiary" + (comment.length > 0 ? " accent" : "")} onclick={() => submitComment()}>Comment</button>
 			</div>
 		</div>
 	</div>
 
-	{#if $replyQuery.isLoading}
+	{#if $commentQuery.isLoading}
 		<Loading />
-	{:else if $replyQuery.isError}
+	{:else if $commentQuery.isError}
 		<Error
-			status={$replyQuery.error.status}
-			message={$replyQuery.error.message}
-			server={Boolean($replyQuery.error.status)}
-			retry={() => $replyQuery.refetch()}
+			status={$commentQuery.error.status}
+			message={$commentQuery.error.message}
+			server={Boolean($commentQuery.error.status)}
+			retry={() => $commentQuery.refetch()}
 		/>
-	{:else if $replyQuery.isSuccess}
-		<div class="tl replies">
-			{#each $replyQuery.data.pages as results}
+	{:else if $commentQuery.isSuccess}
+		<div class="tl comments">
+			{#each $commentQuery.data.pages as results}
 				{#each results as data}
 					<div class="object">
 						<div class="inner">
@@ -137,7 +137,7 @@
 						</div>
 						{#if selfParsed && (selfParsed?.admin || selfParsed?.id === data.user.id || $query.data.to === selfParsed?.id)}
 						<div class="footer btnCtn">
-								<button class="btn danger" onclick={() => deleteReply(data.id)}>
+								<button class="btn danger" onclick={() => deleteComment(data.id)}>
 									<IconTrash size="18px" />
 									Delete
 								</button>
@@ -151,7 +151,7 @@
 {/if}
 
 <style lang="scss" scoped>
-	.replyBar {
+	.commentBar {
 		margin-top: 10px;
 
 		border-radius: 6px;
@@ -159,7 +159,7 @@
 		background: var(--bg-2);
 	}
 
-	.replies {
+	.comments {
 		margin-top: 10px;
 
 		.object {

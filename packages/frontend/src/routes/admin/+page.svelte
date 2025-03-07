@@ -31,6 +31,7 @@
 		<p><b>{$query.data?.stats?.users ?? 0}</b> users</p>
 		<p><b>{$query.data?.stats?.asks ?? 0}</b> asks</p>
 		<p><b>{$query.data?.stats?.responses ?? 0}</b> responses</p>
+		<p><b>{$query.data?.stats?.comments ?? 0}</b> comments</p>
 	</div>
 {/if}
 

@@ -67,9 +67,9 @@ ${page.url.protocol + "//" + page.url.host + "/ask/" + data.id}`)
 		</div>
 	{:else if !detailed}
 		<div class="btnCtn padded">
-			<a class="btn tertiary" href={"/ask/"+data.id+"#reply"}>
+			<a class="btn tertiary" href={"/ask/"+data.id+"#comment"}>
 				<IconArrowBackUp size="18px" />
-				View Replies ({data.replyCount})
+				View Comments ({data.commentCount})
 			</a>
 		</div>
 	{/if}
