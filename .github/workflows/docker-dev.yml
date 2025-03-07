@@ -3,7 +3,7 @@ on:
     pull_request:
     push:
         branches:
-          - main
+          - gh-action
     workflow_dispatch:
 env:
     IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
