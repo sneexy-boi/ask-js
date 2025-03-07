@@ -103,6 +103,7 @@
 
 	<AskAndResponse data={$query.data} detailed />
 
+	{#if selfParsed}
 	<div class="commentBar" id="comment">
 		<div class="form">
 			<div class="inner wide wideGap oneLine">
@@ -111,6 +112,7 @@
 			</div>
 		</div>
 	</div>
+	{/if}
 
 	{#if $commentQuery.isLoading}
 		<Loading />
