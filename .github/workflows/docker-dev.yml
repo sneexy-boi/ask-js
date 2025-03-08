@@ -24,7 +24,7 @@ jobs:
                 - linux/arm64
 
         steps:
-            - name: Preperation
+            - name: Preparation
               run: |
                 platform=${{ matrix.platform }}
                 echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
