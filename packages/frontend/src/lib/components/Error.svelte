@@ -11,9 +11,7 @@
 	<p>{message}</p>
 
 	{#if retry}
-		<button class="btn" onclick={retry}>
-			Retry
-		</button>
+		<button class="btn" onclick={retry}> Retry </button>
 	{/if}
 </div>
 

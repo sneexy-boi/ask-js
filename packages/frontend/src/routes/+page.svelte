@@ -32,8 +32,12 @@
 	<div class="tl directory">
 		{#each $query.data as user}
 			<div class="userCard">
-				<Avatar user={user} size="40" />
-				<a class="subtle" href={"/@"+user.username}>{user.displayName ?? user.username}<br><small>{"@"+user.username+""}</small></a>
+				<Avatar {user} size="40" />
+				<a class="subtle" href={'/@' + user.username}
+					>{user.displayName ?? user.username}<br /><small
+						>{'@' + user.username + ''}</small
+					></a
+				>
 			</div>
 		{/each}
 	</div>

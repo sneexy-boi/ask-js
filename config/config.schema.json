@@ -7,7 +7,7 @@
 		"registrations": {
 			"type": "string",
 			"description": "How to handle account registrations",
-			"enum": ["open","invite","approval","closed"]
+			"enum": ["open", "invite", "approval", "closed"]
 		},
 		"db": {
 			"type": "object",
@@ -28,8 +28,8 @@
 					"type": "string"
 				}
 			},
-			"required": ["user","name"]
+			"required": ["user", "name"]
 		}
 	},
-	"required": ["port","registrations","db"]
+	"required": ["port", "registrations", "db"]
 }

@@ -7,23 +7,21 @@
 	import Error from '$lib/components/Error.svelte';
 	import getUserTimeline from '$lib/api/getUserTimeline.js';
 
-	let selfRaw = localStore.get("self");
+	let selfRaw = localStore.get('self');
 	let selfParsed = undefined;
 
 	try {
 		selfParsed = JSON.parse(selfRaw);
-	} catch { }
+	} catch {}
 
 	const query = createInfiniteQuery({
 		queryKey: ['user_inbox'],
 		retry: false,
-		queryFn: async ({ pageParam }) => await getMyTimeline(selfParsed?.id, pageParam),
+		queryFn: async ({ pageParam }) =>
+			await getMyTimeline(selfParsed?.id, pageParam),
 		initialPageParam: undefined,
 		getNextPageParam: (lastPage) => {
-			console.log(
-				'[user_inbox] lastTlObj',
-				lastPage?.at(-1).createdAt
-			);
+			console.log('[user_inbox] lastTlObj', lastPage?.at(-1).createdAt);
 			return lastPage ? lastPage.at(-1).createdAt : undefined;
 		}
 	});

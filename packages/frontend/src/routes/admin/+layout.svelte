@@ -1,7 +1,12 @@
 <script>
-import { page } from '$app/state';
-import Tab from '$lib/components/Tab.svelte';
-import { IconDashboard, IconMail, IconSettings, IconUsers } from '@tabler/icons-svelte';
+	import { page } from '$app/state';
+	import Tab from '$lib/components/Tab.svelte';
+	import {
+		IconDashboard,
+		IconMail,
+		IconSettings,
+		IconUsers
+	} from '@tabler/icons-svelte';
 </script>
 
 <svelte:head>
@@ -11,19 +16,35 @@ import { IconDashboard, IconMail, IconSettings, IconUsers } from '@tabler/icons-
 <div class="adminTabs">
 	<div class="btnCtn noGap wrap">
 		{#key page.url.pathname}
-			<Tab short href={"/admin"} selected={page.url.pathname === '/admin'}>
+			<Tab
+				short
+				href={'/admin'}
+				selected={page.url.pathname === '/admin'}
+			>
 				<IconDashboard size="18px" />
 				Dashboard
 			</Tab>
-			<Tab short href={"/admin/settings"} selected={page.url.pathname === '/admin/settings'}>
+			<Tab
+				short
+				href={'/admin/settings'}
+				selected={page.url.pathname === '/admin/settings'}
+			>
 				<IconSettings size="18px" />
 				Settings
 			</Tab>
-			<Tab short href={"/admin/invites"} selected={page.url.pathname === '/admin/invites'}>
+			<Tab
+				short
+				href={'/admin/invites'}
+				selected={page.url.pathname === '/admin/invites'}
+			>
 				<IconMail size="18px" />
 				Invites
 			</Tab>
-			<Tab short href={"/admin/users"} selected={page.url.pathname === '/admin/users'}>
+			<Tab
+				short
+				href={'/admin/users'}
+				selected={page.url.pathname === '/admin/users'}
+			>
 				<IconUsers size="18px" />
 				Users
 			</Tab>

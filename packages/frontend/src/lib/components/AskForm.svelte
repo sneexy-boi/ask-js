@@ -1,24 +1,26 @@
 <script>
 	import sendAsk from '$lib/api/sendAsk.js';
 
-	let { userId } = $props()
+	let { userId } = $props();
 
-	let error = $state("")
+	let error = $state('');
 
-	let cw = $state("")
-	let content = $state("")
-	let nickname = $state("")
-	let visibility = $state("public")
+	let cw = $state('');
+	let content = $state('');
+	let nickname = $state('');
+	let visibility = $state('public');
 
 	async function submit() {
-		await sendAsk(userId, cw, content, visibility, nickname).then(() => {
-			cw = ""
-			content = ""
-			nickname = ""
-			visibility = "public"
-		}).catch((err) => {
-			error = err?.message ?? "Something went wrong"
-		})
+		await sendAsk(userId, cw, content, visibility, nickname)
+			.then(() => {
+				cw = '';
+				content = '';
+				nickname = '';
+				visibility = 'public';
+			})
+			.catch((err) => {
+				error = err?.message ?? 'Something went wrong';
+			});
 	}
 </script>
 
@@ -32,7 +34,12 @@
 
 		<input class="ipt" bind:value={cw} placeholder="Content warning" />
 
-		<textarea class="ipt" bind:value={content} required placeholder="Question">
+		<textarea
+			class="ipt"
+			bind:value={content}
+			required
+			placeholder="Question"
+		>
 		</textarea>
 
 		<input class="ipt" bind:value={nickname} placeholder="Nickname" />
@@ -45,7 +52,10 @@
 				</select>
 			</div>
 
-			<button class={"btn" + (content.length > 0 ? " accent" : "")} onclick={() => submit()}>Send</button>
+			<button
+				class={'btn' + (content.length > 0 ? ' accent' : '')}
+				onclick={() => submit()}>Send</button
+			>
 		</div>
 	</div>
 </div>

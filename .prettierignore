@@ -13,3 +13,6 @@ uploads
 pnpm-lock.yaml
 .envrc
 .DS_store
+.gitignore
+.prettierignore
+*.png
