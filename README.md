@@ -12,4 +12,4 @@ run `pnpm start` and it'll be running! use pm2 to keep it going or something els
 ### docker compose
 docker compose is also supported as a method of deploying ask-js.
 
-the `compose.example.yaml` below may be used as an example, please take note of what is commented under the `volumes` section.
+the [`compose.example.yaml`](./compose.example.yaml) file may be used as an example, please take note of what is commented under the `volumes` section.
