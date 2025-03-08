@@ -89,7 +89,9 @@ p {
 	margin: 0;
 }
 
-p,i,a {
+p,
+i,
+a {
 	font-size: 14px;
 }
 
@@ -153,12 +155,13 @@ small {
 	cursor: pointer;
 }
 
-.btn,.ipt {
+.btn,
+.ipt {
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
 
-	border-radius: 6px;
+	border-radius: 7px;
 	padding: 8px 12px;
 	gap: 6px;
 
@@ -314,9 +317,10 @@ label {
 	padding: 8px 12px;
 }
 
-.error,.success {
+.error,
+.success {
 	padding: 8px 10px;
-	border-radius: 6px;
+	border-radius: 7px;
 	width: 100%;
 	box-sizing: border-box;
 
@@ -406,7 +410,8 @@ label {
 	box-sizing: border-box;
 	margin-bottom: 10px;
 
-	.left, .right {
+	.left,
+	.right {
 		display: flex;
 		align-items: center;
 	}

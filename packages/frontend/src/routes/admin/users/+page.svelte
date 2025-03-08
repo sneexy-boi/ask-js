@@ -2,7 +2,8 @@
 	import {
 		IconBox,
 		IconCheck,
-		IconCheckbox, IconDeviceFloppy,
+		IconCheckbox,
+		IconDeviceFloppy,
 		IconGavel,
 		IconPencil,
 		IconPlus,
@@ -21,8 +22,8 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import Error from '$lib/components/Error.svelte';
 
-	let selecting = $state(false)
-	let selection = $state([])
+	let selecting = $state(false);
+	let selection = $state([]);
 
 	function toggleSelection(id) {
 		if (selection.includes(id)) {
@@ -31,12 +32,12 @@
 				selection.splice(index, 1);
 			}
 		} else {
-			selection.push(id)
+			selection.push(id);
 		}
 	}
 
 	let query = createQuery({
-		queryKey: ["admin_users"],
+		queryKey: ['admin_users'],
 		retry: false,
 		queryFn: async () => await getAllUsers()
 	});
@@ -44,7 +45,8 @@
 	function enableUsers() {
 		for (const item of selection) {
 			enableUser(item).then(() => {
-				if (selection.indexOf(item) === (selection.length - 1)) $query.refetch()
+				if (selection.indexOf(item) === selection.length - 1)
+					$query.refetch();
 			});
 		}
 	}
@@ -52,7 +54,8 @@
 	function disableUsers() {
 		for (const item of selection) {
 			disableUser(item).then(() => {
-				if (selection.indexOf(item) === (selection.length - 1)) $query.refetch()
+				if (selection.indexOf(item) === selection.length - 1)
+					$query.refetch();
 			});
 		}
 	}
@@ -63,7 +66,10 @@
 		<h2>Users</h2>
 	</div>
 	<div class="right">
-		<button class={"btn nav" + (selecting ? " accent" : "")} onclick={() => (selecting = !selecting)}>
+		<button
+			class={'btn nav' + (selecting ? ' accent' : '')}
+			onclick={() => (selecting = !selecting)}
+		>
 			<IconCheckbox size="18px" />
 			Select
 		</button>
@@ -75,33 +81,37 @@
 </div>
 
 {#if selecting}
-<div class="actions">
-	<div class="left">
-		<p>{selection.length} selected</p>
-	</div>
-	<div class="right">
-		<button class="btn nav" onclick={() => enableUsers()}>
-			<IconCheck size="18px" />
-			Enable
-		</button>
-		<button class="btn nav danger" onclick={() => disableUsers()}>
-			<IconX size="18px" />
-			Disable
-		</button>
-		<!--
+	<div class="actions">
+		<div class="left">
+			<p>{selection.length} selected</p>
+		</div>
+		<div class="right">
+			<button class="btn nav" onclick={() => enableUsers()}>
+				<IconCheck size="18px" />
+				Enable
+			</button>
+			<button class="btn nav danger" onclick={() => disableUsers()}>
+				<IconX size="18px" />
+				Disable
+			</button>
+			<!--
 		<button class="btn nav danger">
 			<IconTrash size="18px" />
 			Delete
 		</button>
 		-->
+		</div>
 	</div>
-</div>
 {/if}
 
 {#snippet card(user)}
 	<div class="user">
 		{#if selecting}
-			<input type="checkbox" checked={selection.includes(user.id)} onclick={() => toggleSelection(user.id)} />
+			<input
+				type="checkbox"
+				checked={selection.includes(user.id)}
+				onclick={() => toggleSelection(user.id)}
+			/>
 		{/if}
 
 		<div class="left">
@@ -113,9 +123,7 @@
 		</div>
 		<div class="right">
 			{#if user.admin}
-				<p class="flag">
-					Admin
-				</p>
+				<p class="flag">Admin</p>
 			{/if}
 			<p class="flag">
 				{#if user.approved}
@@ -125,7 +133,7 @@
 				{/if}
 			</p>
 
-			<a href={"/@"+user.username+"/edit"} class="btn nav tertiary">
+			<a href={'/@' + user.username + '/edit'} class="btn nav tertiary">
 				<IconPencil size="18px" />
 				Edit
 			</a>
@@ -161,7 +169,8 @@
 		border-radius: 6px;
 		background: var(--bg-2-50);
 
-		.left, .right {
+		.left,
+		.right {
 			display: flex;
 			align-items: center;
 		}
@@ -183,7 +192,8 @@
 		border-radius: 6px;
 		background: var(--bg-2);
 
-		.left, .right {
+		.left,
+		.right {
 			display: flex;
 			align-items: center;
 		}
@@ -210,4 +220,3 @@
 		}
 	}
 </style>
-

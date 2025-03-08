@@ -1,12 +1,25 @@
 <script>
-	let { user, size = 35 } = $props()
+	let { user, size = 35 } = $props();
 </script>
 
-<a href={"/@"+user.username}>
+<a href={'/@' + user.username}>
 	{#if user.avatar}
-		<img class="avatar" src={user.avatar} style={"height:"+size+"px;width:"+size+"px;"} />
+		<img
+			class="avatar"
+			src={user.avatar}
+			style={'height:' + size + 'px;width:' + size + 'px;'}
+		/>
 	{:else}
-		<div class="avatar" style={"height:"+size+"px;width:"+size+"px;font-size:"+size/3+"px;"}>
+		<div
+			class="avatar"
+			style={'height:' +
+				size +
+				'px;width:' +
+				size +
+				'px;font-size:' +
+				size / 3 +
+				'px;'}
+		>
 			{(user.displayName ?? user.username).charAt(0)}
 		</div>
 	{/if}
@@ -26,7 +39,7 @@
 			align-items: center;
 			justify-content: center;
 
-			border-radius: 6px;
+			border-radius: 7px;
 			background: var(--bg-3);
 
 			color: var(--tx-3);
